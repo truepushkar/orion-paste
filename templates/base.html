@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{% block title %}Pastebin Clone{% endblock %}</title>
+    <!-- Tailwind Play CDN (good for prototypes) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Prism for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <style> /* small extra */
+      pre[class*="language-"] { white-space: pre-wrap; word-break: break-word; }
+    </style>
+  </head>
+  <body class="bg-slate-50 min-h-screen text-slate-900">
+    <nav class="bg-white border-b shadow-sm">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="font-bold text-lg">Paste<span class="text-indigo-600">Bin</span></a>
+        <div class="text-sm text-slate-600">Simple · Fast · Private-ish</div>
+      </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-6">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div>
+            {% for category, msg in messages %}
+              <div class="mb-2 px-4 py-2 rounded {{ 'bg-red-100 text-red-800' if category=='error' else 'bg-green-100 text-green-800' }}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="max-w-4xl mx-auto px-6 py-8 text-sm text-slate-500">
+      Built with ❤️ • Tailwind • Flask • MongoDB
+    </footer>
+
+    <script src="/static/main.js"></script>
+  </body>
+</html>

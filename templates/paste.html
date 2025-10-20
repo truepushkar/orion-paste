@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ paste.title or paste.slug }} — PasteView{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow">
+  <div class="flex items-start justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">{{ paste.title or '(untitled)' }}</h1>
+      <div class="text-sm text-slate-500">Slug: <code class="bg-slate-100 px-2 py-1 rounded">{{ paste.slug }}</code></div>
+    </div>
+    <div class="text-sm text-slate-500">
+      Created: {{ paste.created_at.strftime('%Y-%m-%d %H:%M UTC') }}
+      {% if paste.expires_at %}<br />Expires: {{ paste.expires_at.strftime('%Y-%m-%d %H:%M UTC') }}{% endif %}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <div class="mb-2 flex gap-2">
+      <a href="{{ url_for('raw_paste', slug=paste.slug) }}" class="text-xs px-2 py-1 rounded border">Raw</a>
+      <a href="{{ base_url }}/p/{{ paste.slug }}" target="_blank" class="text-xs px-2 py-1 rounded border">Share</a>
+    </div>
+
+    <pre class="rounded p-4 language-{{ paste.language|default('none') }}"><code class="language-{{ paste.language|default('none') }}">{{ paste.content|e }}</code></pre>
+  </div>
+</div>
+{% endblock %}
