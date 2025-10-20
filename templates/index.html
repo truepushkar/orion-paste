@@ -1,39 +1,47 @@
 {% extends "base.html" %}
-
-{% block title %}Create paste — PasteBin Clone{% endblock %}
-
+{% block title %}Create paste — OrionPaste{% endblock %}
 {% block content %}
-<div class="grid grid-cols-1 gap-6">
-  <div class="bg-white p-6 rounded-lg shadow">
-    <form action="/create" method="post">
-      <label class="block mb-2">
-        <span class="text-sm font-medium">Title (optional)</span>
-        <input name="title" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" placeholder="A short title" />
+<div class="bg-slate-800/70 p-8 rounded-xl shadow-2xl shadow-indigo-900/40 backdrop-blur-sm border border-slate-700">
+  <h2 class="text-2xl font-semibold text-teal-400 mb-6">Create a New Paste</h2>
+
+  <form action="/create" method="post" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Left column -->
+    <div class="space-y-4">
+      <label class="block">
+        <span class="text-sm font-medium text-slate-300">Title (optional)</span>
+        <input name="title" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="e.g. My Python Script" />
       </label>
 
-      <label class="block mb-2">
-        <span class="text-sm font-medium">Language</span>
-        <input name="language" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" placeholder="e.g. python, javascript, text" />
+      <label class="block">
+        <span class="text-sm font-medium text-slate-300">Paste</span>
+        <textarea name="content" rows="12" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="Paste your code here..."></textarea>
+      </label>
+    </div>
+
+    <!-- Right column -->
+    <div class="space-y-4">
+      <label class="block">
+        <span class="text-sm font-medium text-slate-300">Language</span>
+        <input name="language" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="python, javascript, text" />
       </label>
 
-      <label class="block mb-2">
-        <span class="text-sm font-medium">Paste</span>
-        <textarea name="content" rows="12" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" placeholder="Paste your code or text here..."></textarea>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-300">Expire After (days)</span>
+        <input name="expire_days" type="number" min="0" class="mt-1 w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="0 = never" />
       </label>
 
-      <label class="block mb-4">
-        <span class="text-sm">Expire after (days)</span>
-        <input name="expire_days" type="number" min="0" class="mt-1 w-32 rounded-md border-gray-200 shadow-sm" placeholder="e.g. 7" />
-        <div class="text-xs text-slate-500 mt-1">0 or empty = never expire</div>
+      <label class="block">
+        <span class="text-sm font-medium text-slate-300">Password (optional, to allow editing)</span>
+        <input name="password" type="password" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="••••••••" />
       </label>
 
-      <div class="flex items-center gap-3">
-        <button type="submit" class="px-4 py-2 rounded bg-indigo-600 text-white font-medium">Create Paste</button>
-        <button type="reset" class="px-3 py-2 rounded border">Reset</button>
+      <div class="flex items-center gap-4 pt-2">
+        <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 text-slate-900 font-semibold hover:opacity-90 transition">Create Paste</button>
+        <button type="reset" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700/60 transition">Reset</button>
       </div>
-    </form>
-  </div>
-
-  <div class="text-sm text-slate-600">Tip: use the language field to help Prism highlight your code (e.g. `python`, `javascript`, `markup`).</div>
+    </div>
+  </form>
 </div>
+
+<p class="text-sm text-slate-400 mt-4">💡 Tip: Set a password to make this paste editable later.</p>
 {% endblock %}

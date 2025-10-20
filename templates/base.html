@@ -3,34 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{% block title %}Pastebin Clone{% endblock %}</title>
-    <!-- Tailwind Play CDN (good for prototypes) -->
+    <title>{% block title %}OrionPaste{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Prism for syntax highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-    <style> /* small extra */
+    <style>
       pre[class*="language-"] { white-space: pre-wrap; word-break: break-word; }
+      ::selection { background: #14b8a6; color: #fff; }
     </style>
   </head>
-  <body class="bg-slate-50 min-h-screen text-slate-900">
-    <nav class="bg-white border-b shadow-sm">
-      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="/" class="font-bold text-lg">Paste<span class="text-indigo-600">Bin</span></a>
-        <div class="text-sm text-slate-600">Simple · Fast · Private-ish</div>
+  <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
+    
+    <!-- Navigation -->
+    <nav class="backdrop-blur-sm bg-slate-800/70 border-b border-slate-700 shadow-md">
+      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-indigo-400 hover:scale-105 transition-transform">
+          Orion<span class="text-indigo-300">Paste</span>
+        </a>
+        <div class="text-sm text-slate-400">✨ Code · Share · Night</div>
       </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto p-6">
+    <!-- Flash Messages -->
+    <main class="flex-1 max-w-5xl mx-auto p-6 w-full">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <div>
+          <div class="mb-4 space-y-2">
             {% for category, msg in messages %}
-              <div class="mb-2 px-4 py-2 rounded {{ 'bg-red-100 text-red-800' if category=='error' else 'bg-green-100 text-green-800' }}">{{ msg }}</div>
+              <div class="px-4 py-2 rounded-lg text-sm font-medium shadow-md {{ 'bg-rose-700/80 text-rose-100 border border-rose-600' if category=='error' else 'bg-teal-700/80 text-teal-100 border border-teal-600' }}">
+                {{ msg }}
+              </div>
             {% endfor %}
           </div>
         {% endif %}
@@ -39,8 +45,9 @@
       {% block content %}{% endblock %}
     </main>
 
-    <footer class="max-w-4xl mx-auto px-6 py-8 text-sm text-slate-500">
-      Built with ❤️ • Tailwind • Flask • MongoDB
+    <!-- Footer -->
+    <footer class="max-w-5xl mx-auto px-6 py-8 text-sm text-slate-500 text-center border-t border-slate-800">
+      <p>🪐 OrionPaste • Built by <span class="text-teal-400">Pushkar</span></p>
     </footer>
 
     <script src="/static/main.js"></script>

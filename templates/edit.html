@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ paste.title or paste.slug }} — OrionPaste{% endblock %}
+{% block content %}
+<div class="bg-slate-800/70 p-8 rounded-xl shadow-2xl shadow-indigo-900/40 backdrop-blur-sm border border-slate-700">
+  <h2 class="text-2xl font-semibold text-indigo-400 mb-6">Edit Paste</h2>
+
+  <form method="post" class="space-y-4">
+    <label class="block">
+      <span class="text-sm font-medium text-slate-300">Password</span>
+      <input name="password" type="password" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-indigo-600 transition" placeholder="Enter password to edit" required />
+    </label>
+
+    <label class="block">
+      <span class="text-sm font-medium text-slate-300">Title</span>
+      <input name="title" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-indigo-600 transition" value="{{ paste.title }}" />
+    </label>
+
+    <label class="block">
+      <span class="text-sm font-medium text-slate-300">Language</span>
+      <input name="language" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-indigo-600 transition" value="{{ paste.language }}" />
+    </label>
+
+    <label class="block">
+      <span class="text-sm font-medium text-slate-300">Content</span>
+      <textarea name="content" rows="12" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-indigo-600 transition">{{ paste.content }}</textarea>
+    </label>
+
+    <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-teal-500 text-slate-900 font-semibold hover:opacity-90 transition">Save Changes</button>
+  </form>
+</div>
+{% endblock %}
