@@ -1,28 +1,69 @@
+/**
+ * Copy text to clipboard with fallback for older browsers
+ * @param {string} text - The text to copy
+ * @returns {Promise<void>}
+ */
 function copyText(text) {
-  if (!navigator.clipboard) {
-    const ta = document.createElement('textarea');
-    ta.value = text;
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) { /* ignore */ }
-    document.body.removeChild(ta);
-    return;
+  // Use modern Clipboard API if available
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(text).catch(() => {});
   }
-  navigator.clipboard.writeText(text).catch(()=>{});
+  
+  // Fallback for older browsers
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  ta.setAttribute('readonly', '');
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+  } catch (e) {
+    console.error('Failed to copy text:', e);
+  }
+  document.body.removeChild(ta);
 }
 
-// Optional: add a click handler to copy raw URL when a 'Share' link exists
-window.addEventListener('load', ()=>{
-  document.querySelectorAll('a').forEach(a=>{
-    if (a.textContent.trim()==='Share'){
-      a.addEventListener('click', (ev)=>{
-        // prefer copy to clipboard
-        ev.preventDefault();
-        const href = a.href;
-        copyText(href);
-        a.textContent = 'Copied!';
-        setTimeout(()=> a.textContent='Share', 1500);
-      });
-    }
-  });
-});
+/**
+ * Initialize share link click handlers
+ * Uses more efficient querySelector and event delegation
+ */
+(function initShareLinks() {
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupShareHandlers);
+  } else {
+    setupShareHandlers();
+  }
+  
+  function setupShareHandlers() {
+    // Use event delegation for better performance
+    // Only query for share links, not all links
+    const shareLinks = document.querySelectorAll('a[href*="/p/"]');
+    
+    shareLinks.forEach(link => {
+      // Check if this is a share link by text content
+      if (link.textContent.includes('Share')) {
+        link.addEventListener('click', handleShareClick, { passive: false });
+      }
+    });
+  }
+  
+  function handleShareClick(ev) {
+    ev.preventDefault();
+    const link = ev.currentTarget;
+    const href = link.href;
+    
+    copyText(href);
+    
+    // Provide user feedback
+    const originalText = link.textContent;
+    link.textContent = 'Copied!';
+    
+    // Reset text after delay
+    setTimeout(() => {
+      link.textContent = originalText;
+    }, 1500);
+  }
+})();

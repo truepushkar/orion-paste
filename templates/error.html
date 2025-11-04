@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Error — OrionPaste{% endblock %}
+{% block content %}
+<div class="bg-slate-800/70 p-8 rounded-xl shadow-2xl shadow-rose-900/40 backdrop-blur-sm border border-rose-700">
+  <div class="text-center">
+    <h1 class="text-6xl font-bold text-rose-400 mb-4">⚠️</h1>
+    <h2 class="text-2xl font-semibold text-rose-300 mb-4">Service Error</h2>
+    <p class="text-slate-300 mb-6">{{ error or "An unexpected error occurred. Please try again later." }}</p>
+    <a href="/" class="inline-block px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 text-slate-900 font-semibold hover:opacity-90 transition">
+      Return Home
+    </a>
+  </div>
+</div>
+{% endblock %}
