@@ -39,7 +39,8 @@ try:
     pastes.create_index([("expires_at", ASCENDING)], background=True)
     pastes.create_index([("created_at", ASCENDING)], background=True)
 except Exception as e:
-    app.logger.warning(f"Failed to create indexes: {e}")
+    # Use print for early startup logging before Flask app is fully initialized
+    print(f"Warning: Failed to create indexes: {e}")
 
 ALPHABET = string.ascii_letters + string.digits
 
@@ -81,8 +82,8 @@ def create():
     # but we still check once for safety
     slug = gen_slug(7)
     
-    # Single database check - if collision (very rare), use ObjectId
-    if pastes.find_one({"slug": slug}, {"_id": 1}):
+    # Efficient existence check - count_documents is more efficient than find_one
+    if pastes.count_documents({"slug": slug}, limit=1):
         slug = str(ObjectId())[:8]
 
     # Single datetime call for consistency

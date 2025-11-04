@@ -38,15 +38,12 @@ function copyText(text) {
   }
   
   function setupShareHandlers() {
-    // Use event delegation for better performance
-    // Only query for share links, not all links
-    const shareLinks = document.querySelectorAll('a[href*="/p/"]');
+    // Use data attribute selector for better performance and specificity
+    // This avoids matching unintended links that may contain '/p/' in URL
+    const shareLinks = document.querySelectorAll('a[data-share-link]');
     
     shareLinks.forEach(link => {
-      // Check if this is a share link by text content
-      if (link.textContent.includes('Share')) {
-        link.addEventListener('click', handleShareClick, { passive: false });
-      }
+      link.addEventListener('click', handleShareClick, { passive: false });
     });
   }
   
