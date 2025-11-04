@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{% block title %}OrionPaste{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <!-- Load Prism.js components with defer for better performance -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" integrity="sha512-vswe+cgvic/XBogiCtsznNsRbJkKBGG3v3IpGPcK9w48S3H6JFFX5yW5x9nZJDjLQW7aRJSR5XLbqLlT/SsHHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Load Prism.js components with defer for better performance and SRI for security -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js" integrity="sha512-5qeH5MRi2/zB1mN8i0yMbzLKMk0xqUmOX4WUVU6yxw2yL6gFOJBwJ1L1BMnJZ2kVPdw4FqPP3Y1dTpxrLb3vHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js" integrity="sha512-IaWG5ZZInRWiOFoTXqjhJHDdqNGRYR+kPqJCDCki2HBKXbo9ldV+pXEu0vXqCqM0IKHenKguZBNKCiFFWjVXmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-3qtI9+9JXi658yli19POddU1RouYuEyndGGROFRX5r3KLCMkIGyf7QnW5b84zm+ZudYzDKm+eCtkuHKN8eEMSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" integrity="sha512-UCF/MxwN8BYt2xx9STr9b1LaTqePtAYw1bfRHvWPo44Yhu6J3tJQ9kM4yXmULbk3T4Bxz5FxJl1yN8vqHEbgMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
       pre[class*="language-"] { white-space: pre-wrap; word-break: break-word; }
       ::selection { background: #14b8a6; color: #fff; }
