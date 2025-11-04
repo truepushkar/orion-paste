@@ -170,6 +170,20 @@ if (navigator.clipboard && navigator.clipboard.writeText) {
 4. Verify error handling with database failures
 5. Browser compatibility testing for clipboard functionality
 
+## Security Improvements
+
+### Subresource Integrity (SRI)
+**Added:** SRI hashes and CORS attributes to all CDN resources
+```html
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" 
+  integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+```
+
+**Impact:**
+- Prevents tampering with CDN resources
+- Ensures scripts haven't been modified
+- Passes CodeQL security scan
+
 ## Future Optimization Opportunities
 
 1. **Caching**: Implement Redis for frequently accessed pastes
