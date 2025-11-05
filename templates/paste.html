@@ -20,7 +20,7 @@
   <div class="mt-5">
     <div class="flex flex-wrap gap-2 mb-3">
       <a href="{{ url_for('raw_paste', slug=paste.slug) }}" class="text-xs px-3 py-1.5 rounded-md border border-slate-600 hover:bg-slate-700/70 transition">📄 Raw</a>
-      <a href="{{ base_url }}/p/{{ paste.slug }}" target="_blank" class="text-xs px-3 py-1.5 rounded-md border border-slate-600 hover:bg-slate-700/70 transition">🔗 Share</a>
+      <a href="{{ base_url }}/p/{{ paste.slug }}" data-share-link target="_blank" class="text-xs px-3 py-1.5 rounded-md border border-slate-600 hover:bg-slate-700/70 transition">🔗 Share</a>
       {% if paste.password_hash %}
       <a href="{{ url_for('edit_paste', slug=paste.slug) }}" class="text-xs px-3 py-1.5 rounded-md border border-teal-600 text-teal-300 hover:bg-teal-700/30 transition">✏️ Edit</a>
       {% endif %}
