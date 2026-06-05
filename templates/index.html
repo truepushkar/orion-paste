@@ -1,47 +1,84 @@
 {% extends "base.html" %}
 {% block title %}Create paste — OrionPaste{% endblock %}
 {% block content %}
-<div class="bg-slate-800/70 p-8 rounded-xl shadow-2xl shadow-indigo-900/40 backdrop-blur-sm border border-slate-700">
-  <h2 class="text-2xl font-semibold text-teal-400 mb-6">Create a New Paste</h2>
+<div class="max-w-xl mx-auto">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-2xl font-semibold text-zinc-100 tracking-tight">Create a paste</h1>
+    <p class="text-[13px] text-zinc-500 mt-1.5">Share code, notes, or anything text-based.</p>
+  </div>
 
-  <form action="/create" method="post" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <!-- Left column -->
-    <div class="space-y-4">
-      <label class="block">
-        <span class="text-sm font-medium text-slate-300">Title (optional)</span>
-        <input name="title" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="e.g. My Python Script" />
+  <form action="/create" method="post" class="space-y-5">
+    <!-- Title -->
+    <div>
+      <label class="flex items-center gap-2 mb-2.5">
+        <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-widest">Title</span>
+        <span class="text-[11px] text-zinc-600 font-normal normal-case">optional</span>
       </label>
-
-      <label class="block">
-        <span class="text-sm font-medium text-slate-300">Paste</span>
-        <textarea name="content" rows="12" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="Paste your code here..."></textarea>
-      </label>
+      <input
+        name="title"
+        class="orion-input w-full"
+        placeholder="e.g. My Python Script"
+        autocomplete="off"
+      />
     </div>
 
-    <!-- Right column -->
-    <div class="space-y-4">
-      <label class="block">
-        <span class="text-sm font-medium text-slate-300">Language (optional)</span>
-        <input name="language" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="python, javascript, text" />
+    <!-- Content -->
+    <div>
+      <label class="flex items-center gap-2 mb-2.5">
+        <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-widest">Content</span>
+        <span class="text-[11px] text-red-400/70 font-normal normal-case">*</span>
       </label>
+      <textarea
+        name="content"
+        rows="16"
+        class="orion-input w-full font-mono text-[13px] resize-y min-h-[300px]"
+        placeholder="Paste your code or text here..."
+        required
+        spellcheck="false"
+      ></textarea>
+    </div>
 
-      <label class="block">
-        <span class="text-sm font-medium text-slate-300">Expire After (days) (optional)</span>
-        <input name="expire_days" type="number" min="0" class="mt-1 w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="0 = never" />
-      </label>
-
-      <label class="block">
-        <span class="text-sm font-medium text-slate-300">Password (optional, to allow editing)</span>
-        <input name="password" type="password" class="mt-1 block w-full rounded-md bg-slate-900/60 border border-slate-700 text-slate-100 px-3 py-2 focus:ring-2 focus:ring-teal-600 transition" placeholder="••••••••" />
-      </label>
-
-      <div class="flex items-center gap-4 pt-2">
-        <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 text-slate-900 font-semibold hover:opacity-90 transition">Create Paste</button>
-        <button type="reset" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700/60 transition">Reset</button>
+    <!-- Settings Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <!-- Language -->
+      <div>
+        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Language</label>
+        <input
+          name="language"
+          class="orion-input w-full"
+          placeholder="auto"
+          autocomplete="off"
+        />
       </div>
+      <!-- Expires -->
+      <div>
+        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Expires</label>
+        <input
+          name="expire_days"
+          type="number"
+          min="0"
+          class="orion-input w-full"
+          placeholder="never"
+        />
+      </div>
+      <!-- Password -->
+      <div>
+        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Password</label>
+        <input
+          name="password"
+          type="password"
+          class="orion-input w-full"
+          placeholder="edit only"
+        />
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3 pt-2">
+      <button type="submit" class="btn-primary">Create Paste</button>
+      <button type="reset" class="btn-secondary">Reset</button>
     </div>
   </form>
 </div>
-
-<p class="text-sm text-slate-400 mt-4">💡 Tip: Set a password to make this paste editable later.</p>
 {% endblock %}
