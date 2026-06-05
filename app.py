@@ -159,5 +159,5 @@ def handle_db_error(e):
     app.logger.error(f"Database connection error: {e}")
     return render_template("error.html", error="Database connection failed. Please try again later."), 503
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=False)
+#if __name__ == "__main__":
+#    app.run(host='0.0.0.0', port=8080, debug=False)
