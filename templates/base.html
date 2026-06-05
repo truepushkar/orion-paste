@@ -5,37 +5,162 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{% block title %}OrionPaste{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" integrity="sha512-vswe+cgvic/XBogiCtsznNsRbJkKBGG3v3IpGPcK9w48S3H6JFFX5yW5x9nZJDjLQW7aRJSR5XLbqLlT/SsHHQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Load Prism.js components with defer for better performance and SRI for security -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js" integrity="sha512-5qeH5MRi2/zB1mN8i0yMbzLKMk0xqUmOX4WUVU6yxw2yL6gFOJBwJ1L1BMnJZ2kVPdw4FqPP3Y1dTpxrLb3vHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js" integrity="sha512-IaWG5ZZInRWiOFoTXqjhJHDdqNGRYR+kPqJCDCki2HBKXbo9ldV+pXEu0vXqCqM0IKHenKguZBNKCiFFWjVXmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" integrity="sha512-3qtI9+9JXi658yli19POddU1RouYuEyndGGROFRX5r3KLCMkIGyf7QnW5b84zm+ZudYzDKm+eCtkuHKN8eEMSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" integrity="sha512-UCF/MxwN8BYt2xx9STr9b1LaTqePtAYw1bfRHvWPo44Yhu6J3tJQ9kM4yXmULbk3T4Bxz5FxJl1yN8vqHEbgMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --surface-2: #1a1a24;
+        --border: #252532;
+        --text: #e2e2ee;
+        --text-muted: #6e6e7a;
+        --text-subtle: #4a4a55;
+        --accent: #6366f1;
+        --accent-hover: #818cf8;
+      }
+      * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      ::selection { background: rgba(99, 102, 241, 0.3); color: #fff; }
       pre[class*="language-"] { white-space: pre-wrap; word-break: break-word; }
-      ::selection { background: #14b8a6; color: #fff; }
+      /* Subtle scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #3a3a45; }
+      /* Inputs */
+      .orion-input {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        padding: 10px 16px;
+        font-size: 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .orion-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+      }
+      .orion-input::placeholder { color: var(--text-subtle); }
+      .orion-input:disabled { opacity: 0.6; cursor: not-allowed; }
+      /* Buttons */
+      .btn-primary {
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .btn-primary:hover { background: #fff; transform: translateY(-1px); }
+      .btn-primary:active { transform: translateY(0); }
+      .btn-secondary {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .btn-secondary:hover { border-color: #3a3a45; color: var(--text); background: rgba(255,255,255,0.03); }
+      /* Card */
+      .orion-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      /* Glow dot */
+      .glow-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      }
+      /* Code block */
+      .code-block {
+        background: #0d0d14;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .code-block pre {
+        margin: 0 !important;
+        padding: 20px 24px;
+        background: transparent !important;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      /* Toast */
+      .toast-enter { animation: toastSlide 0.3s ease; }
+      @keyframes toastSlide {
+        from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+      /* Nav link hover effect */
+      .nav-link { position: relative; }
+      .nav-link::after {
+        content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+        height: 1px; background: var(--accent); transform: scaleX(0);
+        transform-origin: left; transition: transform 0.3s ease;
+      }
+      .nav-link:hover::after { transform: scaleX(1); }
     </style>
+    {% block extra_head %}{% endblock %}
   </head>
-  <body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
-    
+  <body class="antialiased">
+
     <!-- Navigation -->
-    <nav class="backdrop-blur-sm bg-slate-800/70 border-b border-slate-700 shadow-md">
-      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" class="font-extrabold text-2xl bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-indigo-400 hover:scale-105 transition-transform">
-          Orion<span class="text-indigo-300">Paste</span>
+    <nav style="border-bottom: 1px solid var(--border);">
+      <div class="max-w-2xl mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="glow-dot group-hover:scale-110 transition-transform"></div>
+          <span class="font-semibold text-zinc-100 text-[15px] tracking-tight">OrionPaste</span>
         </a>
-        <div class="text-sm text-slate-400">✨ Code · Share · Night</div>
+        <a href="/" class="text-[13px] font-medium text-zinc-500 hover:text-zinc-300 transition-colors nav-link">
+          New Paste
+        </a>
       </div>
     </nav>
 
-    <!-- Flash Messages -->
-    <main class="flex-1 max-w-5xl mx-auto p-6 w-full">
+    <!-- Main Content -->
+    <main class="flex-1 max-w-2xl mx-auto px-6 py-10 w-full">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          <div class="mb-4 space-y-2">
+          <div class="mb-6 space-y-2">
             {% for category, msg in messages %}
-              <div class="px-4 py-2 rounded-lg text-sm font-medium shadow-md {{ 'bg-rose-700/80 text-rose-100 border border-rose-600' if category=='error' else 'bg-teal-700/80 text-teal-100 border border-teal-600' }}">
+              <div class="flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] {{ 'bg-red-500/[0.08] text-red-400 border border-red-500/20' if category=='error' else 'bg-emerald-500/[0.08] text-emerald-400 border border-emerald-500/20' }}"
+                   style="animation: toastSlide 0.3s ease;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  {% if category == 'error' %}
+                    <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                  {% else %}
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                  {% endif %}
+                </svg>
                 {{ msg }}
               </div>
             {% endfor %}
@@ -47,10 +172,20 @@
     </main>
 
     <!-- Footer -->
-    <footer class="max-w-5xl mx-auto px-6 py-8 text-sm text-slate-500 text-center border-t border-slate-800">
-      <p>🪐 OrionPaste • Built by <a href="https://github.com/truepushkar/orion-paste" class="text-teal-400">MoonMan</a></p>
+    <footer style="border-top: 1px solid var(--border); margin-top: auto;">
+      <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between text-[12px] text-zinc-600">
+        <span class="font-mono">OrionPaste</span>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/truepushkar/orion-paste" target="_blank"
+             class="hover:text-zinc-400 transition-colors flex items-center gap-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
     </footer>
 
     <script defer src="/static/main.js"></script>
+    {% block extra_scripts %}{% endblock %}
   </body>
 </html>
