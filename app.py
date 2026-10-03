@@ -109,6 +109,9 @@ def create():
 @app.route("/p/<slug>")
 def view_paste(slug):
     paste = get_paste_or_404(slug)
+    pastes.update_one({"_id": paste["_id"]}, {"$inc": {"views": 1}})
+    # Keep the rendered count in sync with this view (template reads the fetched dict)
+    paste["views"] = paste.get("views", 0) + 1
     return render_template("paste.html", paste=paste, base_url=BASE_URL)
 
 @app.route("/edit/<slug>", methods=["GET", "POST"])
