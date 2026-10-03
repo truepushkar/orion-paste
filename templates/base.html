@@ -3,48 +3,110 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{% block title %}OrionPaste{% endblock %}</title>
+    <title>{% block title %}OrionPaste — Pastebin of the Cosmos{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-vsc-dark-plus.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-go.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-ruby.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
       :root {
-        --bg: #0a0a0f;
-        --surface: #111118;
-        --surface-2: #1a1a24;
-        --border: #252532;
-        --text: #e2e2ee;
-        --text-muted: #6e6e7a;
-        --text-subtle: #4a4a55;
-        --accent: #6366f1;
-        --accent-hover: #818cf8;
+        --bg: #050510;
+        --surface: rgba(14, 14, 34, 0.72);
+        --surface-2: rgba(20, 20, 46, 0.85);
+        --border: rgba(139, 92, 246, 0.16);
+        --border-bright: rgba(139, 92, 246, 0.35);
+        --text: #e8e8f5;
+        --text-muted: #8b8ba7;
+        --text-subtle: #55556e;
+        --accent: #8b5cf6;
+        --accent-2: #22d3ee;
+        --accent-hover: #a78bfa;
+        color-scheme: dark;
       }
       * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      h1, h2, .font-display, .brand { font-family: 'Space Grotesk', 'Inter', sans-serif; }
       code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
       body {
-        background: var(--bg);
+        background:
+          radial-gradient(1200px 800px at 70% -10%, rgba(99, 102, 241, 0.14), transparent 60%),
+          radial-gradient(900px 600px at 8% 110%, rgba(34, 211, 238, 0.07), transparent 60%),
+          var(--bg);
         color: var(--text);
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
-      ::selection { background: rgba(99, 102, 241, 0.3); color: #fff; }
+      /* ---- SpaceBackdrop: fixed twinkling starfield + nebula glow ---- */
+      .starfield, .starfield-2, .starfield-3, .nebula {
+        position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      }
+      .starfield {
+        background-image:
+          radial-gradient(1px 1px at 25% 15%, rgba(255,255,255,.9), transparent 55%),
+          radial-gradient(1px 1px at 75% 40%, rgba(255,255,255,.65), transparent 55%),
+          radial-gradient(1px 1px at 48% 72%, rgba(255,255,255,.75), transparent 55%),
+          radial-gradient(1px 1px at 88% 82%, rgba(255,255,255,.55), transparent 55%),
+          radial-gradient(1px 1px at 12% 58%, rgba(255,255,255,.7), transparent 55%),
+          radial-gradient(1px 1px at 60% 8%, rgba(255,255,255,.6), transparent 55%);
+        background-size: 380px 380px;
+        animation: twinkle 5s ease-in-out infinite alternate;
+      }
+      .starfield-2 {
+        background-image:
+          radial-gradient(1.5px 1.5px at 33% 28%, rgba(200,220,255,.8), transparent 55%),
+          radial-gradient(1px 1px at 66% 64%, rgba(255,255,255,.5), transparent 55%),
+          radial-gradient(2px 2px at 82% 22%, rgba(180,200,255,.65), transparent 55%),
+          radial-gradient(1px 1px at 18% 84%, rgba(255,255,255,.5), transparent 55%);
+        background-size: 700px 700px;
+        animation: twinkle 7s ease-in-out infinite alternate-reverse;
+      }
+      .starfield-3 {
+        background-image:
+          radial-gradient(2px 2px at 42% 46%, rgba(255,255,255,.95), transparent 55%),
+          radial-gradient(2.5px 2.5px at 78% 74%, rgba(167,139,250,.75), transparent 55%),
+          radial-gradient(2px 2px at 14% 34%, rgba(34,211,238,.7), transparent 55%);
+        background-size: 1100px 1100px;
+        animation: twinkle 9s ease-in-out infinite alternate;
+      }
+      .nebula {
+        background:
+          radial-gradient(620px 420px at 85% 8%, rgba(139, 92, 246, 0.11), transparent 70%),
+          radial-gradient(720px 520px at 4% 92%, rgba(34, 211, 238, 0.06), transparent 70%);
+      }
+      @keyframes twinkle { from { opacity: 0.45; } to { opacity: 1; } }
+      ::selection { background: rgba(139, 92, 246, 0.35); color: #fff; }
       pre[class*="language-"] { white-space: pre-wrap; word-break: break-word; }
-      /* Subtle scrollbar */
+      /* Scrollbar */
       ::-webkit-scrollbar { width: 6px; height: 6px; }
       ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: #3a3a45; }
-      /* Inputs */
+      ::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.35); border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: rgba(139, 92, 246, 0.55); }
+      /* Inputs & selects (pastebin-style controls, space palette) */
       .orion-input {
-        background: var(--surface);
+        background: var(--surface-2);
         border: 1px solid var(--border);
         border-radius: 10px;
         color: var(--text);
@@ -52,26 +114,36 @@
         font-size: 14px;
         transition: border-color 0.2s ease, box-shadow 0.2s ease;
       }
+      select.orion-input {
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b8ba7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 40px;
+        cursor: pointer;
+      }
       .orion-input:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12), 0 0 24px rgba(139, 92, 246, 0.08);
       }
       .orion-input::placeholder { color: var(--text-subtle); }
       .orion-input:disabled { opacity: 0.6; cursor: not-allowed; }
       /* Buttons */
       .btn-primary {
-        background: var(--text);
-        color: var(--bg);
+        background: linear-gradient(135deg, var(--accent) 0%, #6d5df6 55%, var(--accent-2) 130%);
+        color: #fff;
         border: none;
         border-radius: 10px;
-        padding: 10px 20px;
+        padding: 10px 22px;
         font-size: 14px;
         font-weight: 600;
         cursor: pointer;
+        box-shadow: 0 4px 24px rgba(139, 92, 246, 0.28);
         transition: all 0.2s ease;
       }
-      .btn-primary:hover { background: #fff; transform: translateY(-1px); }
+      .btn-primary:hover { box-shadow: 0 6px 32px rgba(139, 92, 246, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
       .btn-primary:active { transform: translateY(0); }
       .btn-secondary {
         background: transparent;
@@ -84,35 +156,41 @@
         cursor: pointer;
         transition: all 0.2s ease;
       }
-      .btn-secondary:hover { border-color: #3a3a45; color: var(--text); background: rgba(255,255,255,0.03); }
+      .btn-secondary:hover { border-color: var(--border-bright); color: var(--text); background: rgba(139, 92, 246, 0.07); }
       /* Card */
       .orion-card {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 14px;
         overflow: hidden;
+        backdrop-filter: blur(8px);
       }
-      /* Glow dot */
-      .glow-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      /* Planet logo */
+      .planet-glow { filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.65)); }
+      .brand {
+        background: linear-gradient(100deg, #e8e8f5 20%, var(--accent-hover) 55%, var(--accent-2) 95%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
-      /* Code block */
+      /* Code block (pastebin-style pane with gutter) */
       .code-block {
-        background: #0d0d14;
+        background: #0a0a1c;
         border: 1px solid var(--border);
         border-radius: 14px;
         overflow: hidden;
       }
       .code-block pre {
         margin: 0 !important;
-        padding: 20px 24px;
+        padding: 20px 24px !important;
         background: transparent !important;
         font-size: 13px;
         line-height: 1.7;
+      }
+      pre.line-numbers { position: relative; padding-left: 3.4em !important; }
+      .line-numbers .line-numbers-rows {
+        border-right: 1px solid var(--border) !important;
+        top: 20px !important;
       }
       /* Toast */
       .toast-enter { animation: toastSlide 0.3s ease; }
@@ -120,7 +198,7 @@
         from { opacity: 0; transform: translateX(-50%) translateY(10px); }
         to { opacity: 1; transform: translateX(-50%) translateY(0); }
       }
-      /* Nav link hover effect */
+      /* Nav link hover */
       .nav-link { position: relative; }
       .nav-link::after {
         content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
@@ -133,21 +211,41 @@
   </head>
   <body class="antialiased">
 
-    <!-- Navigation -->
-    <nav style="border-bottom: 1px solid var(--border);">
-      <div class="max-w-2xl mx-auto px-6 py-5 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3 group">
-          <div class="glow-dot group-hover:scale-110 transition-transform"></div>
-          <span class="font-semibold text-zinc-100 text-[15px] tracking-tight">OrionPaste</span>
+    <!-- SpaceBackdrop -->
+    <div class="nebula" aria-hidden="true"></div>
+    <div class="starfield" aria-hidden="true"></div>
+    <div class="starfield-2" aria-hidden="true"></div>
+    <div class="starfield-3" aria-hidden="true"></div>
+
+    <!-- Navigation (pastebin-style bar) -->
+    <nav class="relative z-10" style="border-bottom: 1px solid var(--border); background: rgba(7, 7, 20, 0.75); backdrop-filter: blur(10px);">
+      <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5 group">
+          <svg class="planet-glow group-hover:scale-110 transition-transform" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="planetGrad" x1="6" y1="6" x2="18" y2="18" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a78bfa"/><stop offset="0.6" stop-color="#8b5cf6"/><stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+            <circle cx="12" cy="12" r="5.5" fill="url(#planetGrad)"/>
+            <circle cx="10.3" cy="10.2" r="1.3" fill="rgba(255,255,255,0.5)"/>
+            <ellipse cx="12" cy="12" rx="10.5" ry="3.4" stroke="#22d3ee" stroke-opacity="0.85" stroke-width="1.1" transform="rotate(-22 12 12)"/>
+          </svg>
+          <span class="font-display font-semibold text-[16px] tracking-tight brand">OrionPaste</span>
+          <span class="hidden sm:inline text-[11px] font-mono ml-1 px-2 py-0.5 rounded-full" style="border:1px solid var(--border); color: var(--text-muted);">pastebin of the cosmos</span>
         </a>
-        <a href="/" class="text-[13px] font-medium text-zinc-500 hover:text-zinc-300 transition-colors nav-link">
-          New Paste
-        </a>
+        <div class="flex items-center gap-5">
+          <a href="https://github.com/truepushkar/orion-paste" target="_blank" class="hidden sm:inline text-[13px] font-medium text-zinc-500 hover:text-zinc-300 transition-colors nav-link">GitHub</a>
+          <a href="/" class="btn-primary inline-flex items-center gap-1.5 !py-1.5 !px-3.5 text-[13px]">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Create New Paste
+          </a>
+        </div>
       </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1 max-w-2xl mx-auto px-6 py-10 w-full">
+    <main class="relative z-10 flex-1 max-w-3xl mx-auto px-6 py-10 w-full">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <div class="mb-6 space-y-2">
@@ -172,16 +270,14 @@
     </main>
 
     <!-- Footer -->
-    <footer style="border-top: 1px solid var(--border); margin-top: auto;">
-      <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between text-[12px] text-zinc-600">
-        <span class="font-mono">OrionPaste</span>
-        <div class="flex items-center gap-4">
-          <a href="https://github.com/truepushkar/orion-paste" target="_blank"
-             class="hover:text-zinc-400 transition-colors flex items-center gap-1.5">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            GitHub
-          </a>
-        </div>
+    <footer class="relative z-10" style="border-top: 1px solid var(--border); margin-top: auto; background: rgba(7, 7, 20, 0.6);">
+      <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between text-[12px]" style="color: var(--text-subtle);">
+        <span>OrionPaste — sharing code across the galaxy</span>
+        <a href="https://github.com/truepushkar/orion-paste" target="_blank"
+           class="hover:text-zinc-400 transition-colors flex items-center gap-1.5 font-mono" style="color: var(--text-muted);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
       </div>
     </footer>
 

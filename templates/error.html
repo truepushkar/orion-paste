@@ -4,14 +4,17 @@
 <div class="flex flex-col items-center justify-center text-center min-h-[50vh]">
   <div class="max-w-sm w-full">
     <div class="flex items-center justify-center mb-6">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-zinc-800">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" class="planet-glow">
+        <circle cx="12" cy="12" r="6" fill="rgba(34, 211, 238, 0.15)" stroke="#22d3ee" stroke-width="1"/>
+        <ellipse cx="12" cy="12" rx="10.5" ry="3.4" stroke="#8b5cf6" stroke-opacity="0.6" stroke-width="1" transform="rotate(18 12 12)"/>
+        <line x1="12" y1="8" x2="12" y2="12" stroke="#8b8ba7" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="12" y1="16" x2="12.01" y2="16" stroke="#8b8ba7" stroke-width="1.2" stroke-linecap="round"/>
       </svg>
     </div>
-    <h1 class="text-2xl font-semibold text-zinc-100 tracking-tight">Something went wrong</h1>
-    <p class="text-[13px] text-zinc-500 mt-2">{{ error or "An unexpected error occurred. Please try again later." }}</p>
+    <h1 class="text-2xl font-semibold text-zinc-100 tracking-tight">Meteor strike</h1>
+    <p class="text-[13px] mt-2" style="color: var(--text-muted);">{{ error or "An unexpected error occurred. Please try again later." }}</p>
     <a href="/" class="btn-primary mt-8 inline-flex items-center justify-center text-[13px]">
-      Return Home
+      Return to Orbit
     </a>
   </div>
 </div>
