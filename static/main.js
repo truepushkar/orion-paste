@@ -1,6 +1,6 @@
 /**
  * OrionPaste - Main JavaScript
- * Clean, minimal interactions for the modern paste sharing app.
+ * Interactions for the space-themed paste sharing app.
  */
 
 (function() {
@@ -40,9 +40,10 @@
     `;
     toast.style.cssText = `
       position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-      background:#111118; color:#e2e2ee; padding:10px 20px; border-radius:12px;
+      background:rgba(14,14,34,0.95); color:#e8e8f5; padding:10px 20px; border-radius:12px;
       font-size:13px; font-weight:500; z-index:9999; opacity:0;
-      border:1px solid #252532; box-shadow:0 8px 32px rgba(0,0,0,0.4);
+      border:1px solid rgba(139,92,246,0.35); box-shadow:0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(139,92,246,0.15);
+      backdrop-filter: blur(8px);
       transition:opacity 0.3s ease;
     `;
     document.body.appendChild(toast);
@@ -82,9 +83,9 @@
       btn.type = 'button';
       btn.className = 'code-copy-btn';
       btn.style.cssText = `
-        position:absolute; top:12px; right:12px;
-        background:#1a1a24; border:1px solid #252532; border-radius:8px;
-        padding:6px 12px; color:#6e6e7a; font-size:11px; font-weight:500;
+        position:absolute; top:12px; right:12px; z-index:5;
+        background:rgba(20,20,46,0.9); border:1px solid rgba(139,92,246,0.35); border-radius:8px;
+        padding:6px 12px; color:#8b8ba7; font-size:11px; font-weight:500;
         cursor:pointer; display:flex; align-items:center; gap:6px;
         transition:all 0.2s ease; opacity:0; pointer-events:none;
       `;
@@ -116,7 +117,7 @@
             </svg>
             Copied
           `;
-          btn.style.color = '#6366f1';
+          btn.style.color = '#a78bfa';
           setTimeout(() => {
             btn.innerHTML = `
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -124,7 +125,7 @@
               </svg>
               Copy
             `;
-            btn.style.color = '#6e6e7a';
+            btn.style.color = '#8b8ba7';
           }, 2000);
         }
       });
@@ -143,7 +144,7 @@
 
     const counter = document.createElement('div');
     counter.className = 'char-counter';
-    counter.style.cssText = 'text-align:right; font-size:11px; color:#4a4a55; margin-top:6px;';
+    counter.style.cssText = 'text-align:right; font-size:11px; color:#55556e; margin-top:6px; font-family: monospace;';
     counter.textContent = '0 characters';
     textarea.parentElement.appendChild(counter);
 
@@ -194,36 +195,6 @@
     });
   }
 
-  /**
-   * Initialize paste language auto-detect hint
-   */
-  function initLangDetect() {
-    const contentInput = document.querySelector('textarea[name="content"]');
-    const langInput = document.querySelector('input[name="language"]');
-    if (!contentInput || !langInput || langInput.value) return;
-
-    function detect() {
-      const text = contentInput.value.trim();
-      if (!text) return;
-      // Simple heuristics
-      const firstLine = text.split('\n')[0].toLowerCase();
-      let detected = '';
-      if (firstLine.includes('python') || /^(import|from|def|class|if __name__)/m.test(text)) detected = 'python';
-      else if (firstLine.includes('javascript') || /^(const|let|var|function|=>)/m.test(text)) detected = 'javascript';
-      else if (firstLine.includes('html') || /^<!doctype\s*html>/i.test(text)) detected = 'html';
-      else if (firstLine.includes('css') || /[:{]\s*[^;]+;\s*}/.test(text)) detected = 'css';
-      else if (/^(const|type|interface|export|import)\s/m.test(text)) detected = 'typescript';
-      else if (/^(package|func|import\s)/m.test(text)) detected = 'go';
-      else if (/^(#include|int main)/m.test(text)) detected = 'c';
-      else if (/^(fn|let|use|mod)/m.test(text)) detected = 'rust';
-
-      if (detected && !langInput.value) {
-        langInput.placeholder = 'Detected: ' + detected + ' (auto)';
-      }
-    }
-    contentInput.addEventListener('blur', detect);
-  }
-
   // Initialize everything when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', runInit);
@@ -237,6 +208,5 @@
     initCharCounter();
     initAutoResize();
     initKeyboardShortcuts();
-    initLangDetect();
   }
 })();

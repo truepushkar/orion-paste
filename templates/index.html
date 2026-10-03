@@ -5,15 +5,15 @@
   <!-- Header -->
   <div class="mb-8">
     <h1 class="text-2xl font-semibold text-zinc-100 tracking-tight">Create a paste</h1>
-    <p class="text-[13px] text-zinc-500 mt-1.5">Share code, notes, or anything text-based.</p>
+    <p class="text-[13px] mt-1.5" style="color: var(--text-muted);">Share code, notes, or anything text-based — across the galaxy.</p>
   </div>
 
   <form action="/create" method="post" class="space-y-5">
     <!-- Title -->
     <div>
       <label class="flex items-center gap-2 mb-2.5">
-        <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-widest">Title</span>
-        <span class="text-[11px] text-zinc-600 font-normal normal-case">optional</span>
+        <span class="text-[11px] font-semibold uppercase tracking-widest" style="color: var(--text-muted);">Title</span>
+        <span class="text-[11px] font-normal normal-case" style="color: var(--text-subtle);">optional</span>
       </label>
       <input
         name="title"
@@ -26,7 +26,7 @@
     <!-- Content -->
     <div>
       <label class="flex items-center gap-2 mb-2.5">
-        <span class="text-[11px] font-semibold text-zinc-400 uppercase tracking-widest">Content</span>
+        <span class="text-[11px] font-semibold uppercase tracking-widest" style="color: var(--text-muted);">Content</span>
         <span class="text-[11px] text-red-400/70 font-normal normal-case">*</span>
       </label>
       <textarea
@@ -39,38 +39,62 @@
       ></textarea>
     </div>
 
-    <!-- Settings Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <!-- Language -->
-      <div>
-        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Language</label>
-        <input
-          name="language"
-          class="orion-input w-full"
-          placeholder="auto"
-          autocomplete="off"
-        />
-      </div>
-      <!-- Expires -->
-      <div>
-        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Expires</label>
-        <input
-          name="expire_days"
-          type="number"
-          min="0"
-          class="orion-input w-full"
-          placeholder="never"
-        />
-      </div>
-      <!-- Password -->
-      <div>
-        <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Password</label>
-        <input
-          name="password"
-          type="password"
-          class="orion-input w-full"
-          placeholder="edit only"
-        />
+    <!-- Settings (pastebin-style options card) -->
+    <div class="orion-card p-5 space-y-4">
+      <p class="text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2" style="color: var(--text-muted);">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Paste Settings
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Syntax highlighting -->
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Syntax</label>
+          <select name="language" class="orion-input w-full text-[13px]">
+            <option value="">None (auto)</option>
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="html">HTML / Markup</option>
+            <option value="css">CSS</option>
+            <option value="json">JSON</option>
+            <option value="bash">Bash / Shell</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="csharp">C#</option>
+            <option value="go">Go</option>
+            <option value="java">Java</option>
+            <option value="rust">Rust</option>
+            <option value="ruby">Ruby</option>
+            <option value="php">PHP</option>
+            <option value="sql">SQL</option>
+            <option value="yaml">YAML</option>
+            <option value="markdown">Markdown</option>
+          </select>
+        </div>
+        <!-- Expiration -->
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Expiration</label>
+          <select name="expire_days" class="orion-input w-full text-[13px]">
+            <option value="0">Never</option>
+            <option value="1">1 day</option>
+            <option value="7">1 week</option>
+            <option value="14">2 weeks</option>
+            <option value="30">1 month</option>
+            <option value="90">3 months</option>
+            <option value="365">1 year</option>
+          </select>
+        </div>
+        <!-- Password -->
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Password</label>
+          <input
+            name="password"
+            type="password"
+            class="orion-input w-full"
+            placeholder="edit only"
+            autocomplete="new-password"
+          />
+        </div>
       </div>
     </div>
 

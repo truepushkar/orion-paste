@@ -5,13 +5,13 @@
   <!-- Header -->
   <div class="mb-8">
     <h1 class="text-2xl font-semibold text-zinc-100 tracking-tight">Edit paste</h1>
-    <p class="text-[13px] text-zinc-500 mt-1.5 font-mono">{{ paste.slug }}</p>
+    <p class="text-[13px] font-mono mt-1.5" style="color: var(--text-muted);">{{ paste.slug }}</p>
   </div>
 
   <form method="post" class="space-y-5">
     <!-- Password -->
     <div>
-      <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">
+      <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">
         Password <span class="text-red-400/70 font-normal normal-case">*</span>
       </label>
       <input
@@ -20,13 +20,14 @@
         required
         class="orion-input w-full"
         placeholder="Enter password to edit"
+        autocomplete="current-password"
         autofocus
       />
     </div>
 
     <!-- Title -->
     <div>
-      <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Title</label>
+      <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Title</label>
       <input
         name="title"
         value="{{ paste.title }}"
@@ -35,20 +36,27 @@
       />
     </div>
 
-    <!-- Language -->
+    <!-- Syntax -->
     <div>
-      <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Language</label>
-      <input
-        name="language"
-        value="{{ paste.language }}"
-        class="orion-input w-full"
-        autocomplete="off"
-      />
+      <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Syntax</label>
+      <select name="language" class="orion-input w-full text-[13px]">
+        {% set current_lang = paste.language or '' %}
+        <option value="" {{ 'selected' if current_lang == '' }}>None (auto)</option>
+        {% for lang, label in [
+          ('python', 'Python'), ('javascript', 'JavaScript'), ('typescript', 'TypeScript'),
+          ('html', 'HTML / Markup'), ('css', 'CSS'), ('json', 'JSON'), ('bash', 'Bash / Shell'),
+          ('c', 'C'), ('cpp', 'C++'), ('csharp', 'C#'), ('go', 'Go'), ('java', 'Java'),
+          ('rust', 'Rust'), ('ruby', 'Ruby'), ('php', 'PHP'), ('sql', 'SQL'),
+          ('yaml', 'YAML'), ('markdown', 'Markdown')
+        ] %}
+          <option value="{{ lang }}" {{ 'selected' if current_lang == lang }}>{{ label }}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <!-- Content -->
     <div>
-      <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2.5">Content</label>
+      <label class="block text-[11px] font-semibold uppercase tracking-widest mb-2.5" style="color: var(--text-muted);">Content</label>
       <textarea
         name="content"
         rows="16"

@@ -2,7 +2,7 @@ import os
 import string
 import random
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from flask import (
     Flask, render_template, request, redirect,
     url_for, abort, Response, flash
@@ -24,6 +24,7 @@ BASE_URL = os.getenv("BASE_URL", "http://localhost:5000")
 # Configure MongoDB client with connection pooling for better performance
 client = MongoClient(
     MONGODB_URI,
+    tz_aware=True,
     maxPoolSize=50,
     minPoolSize=10,
     maxIdleTimeMS=45000,
@@ -55,7 +56,7 @@ def get_paste_or_404(slug):
         abort(404)
     
     # Check expiration with single datetime call
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     if paste.get("expires_at") and now > paste["expires_at"]:
         pastes.delete_one({"_id": paste["_id"]})
         abort(404)
@@ -87,7 +88,7 @@ def create():
         slug = str(ObjectId())[:8]
 
     # Single datetime call for consistency
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     
     paste = {
         "slug": slug,
@@ -108,6 +109,9 @@ def create():
 @app.route("/p/<slug>")
 def view_paste(slug):
     paste = get_paste_or_404(slug)
+    pastes.update_one({"_id": paste["_id"]}, {"$inc": {"views": 1}})
+    # Keep the rendered count in sync with this view (template reads the fetched dict)
+    paste["views"] = paste.get("views", 0) + 1
     return render_template("paste.html", paste=paste, base_url=BASE_URL)
 
 @app.route("/edit/<slug>", methods=["GET", "POST"])
@@ -135,7 +139,7 @@ def edit_paste(slug):
                 "content": new_content,
                 "title": request.form.get("title", paste["title"]),
                 "language": request.form.get("language", paste["language"]),
-                "updated_at": datetime.utcnow()
+                "updated_at": datetime.now(timezone.utc)
             }}
         )
         flash("Paste updated successfully!", "success")
