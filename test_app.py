@@ -180,6 +180,24 @@ def test_secret_key_is_used_when_configured(monkeypatch):
     assert stow._resolve_secret() == "a-configured-key"
 
 
+def test_api_routes_survive_a_host_that_mounts_under_api(client):
+    """Vercel's Python runtime sets SCRIPT_NAME to the function directory.
+
+    Flask then routes `/health` when the visitor asked for `/api/health`, and
+    every API route 404s against the HTML catch-all. The mount must be undone.
+    """
+    mounted = client.get(
+        "/api/health",
+        environ_overrides={"SCRIPT_NAME": "/api", "PATH_INFO": "/health"},
+    )
+    assert mounted.status_code == 200
+    assert mounted.get_json()["ok"] is True
+
+
+def test_unmounted_requests_are_unchanged(client):
+    assert client.get("/api/health").status_code == 200
+
+
 def test_protected_paste_withholds_body_from_anonymous_reader(client):
     created = make_paste(client, password="harbor-lamp", protectRead=True).get_json()
     assert created["protected"] is True

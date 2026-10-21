@@ -54,6 +54,37 @@ def _resolve_dist() -> Path:
 app = Flask(__name__, static_folder=None)
 
 
+class StripApiMount:
+    """Undo a host that mounts this app under `/api`.
+
+    Some platforms (Vercel's Python runtime among them) route every request
+    through one function and set SCRIPT_NAME to the function's directory, so
+    Flask is asked to route `/health` when the visitor requested
+    `/api/health`, and every API route 404s with the HTML catch-all.
+
+    This moves any leading path segment that looks like a mount back onto
+    PATH_INFO. It only fires when SCRIPT_NAME is set, so a normal deployment
+    and local development are untouched.
+    """
+
+    def __init__(self, wsgi_app):
+        self.wsgi_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        script = environ.get("SCRIPT_NAME", "")
+        if not script or script == "/":
+            return self.wsgi_app(environ, start_response)
+
+        environ = dict(environ)
+        mount = script.rstrip("/")
+        environ["SCRIPT_NAME"] = ""
+        environ["PATH_INFO"] = mount + environ.get("PATH_INFO", "")
+        return self.wsgi_app(environ, start_response)
+
+
+app.wsgi_app = StripApiMount(app.wsgi_app)
+
+
 def _resolve_secret() -> str:
     """The key behind read tokens.
 
