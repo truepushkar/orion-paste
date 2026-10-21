@@ -5,12 +5,24 @@ __pycache__/
 
 test.md
 
+# A virtualenv's lib/ and lib64/ belong to the environment, never to the repo.
+# Scoped to the top level on purpose: an unanchored `lib/` also swallows
+# frontend/src/lib, which is application source and must be committed.
+/lib/
+/lib64/
+
 # Stow
 instance/
 .env
 .pytest_cache/
 frontend/node_modules/
 frontend/dist/
+.vercel
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/*.txt
+.impeccable/*.js
+.impeccable/decision-payload*.json
 .impeccable/review/
 .impeccable/mocks/
 .impeccable/*.txt
@@ -28,8 +40,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/

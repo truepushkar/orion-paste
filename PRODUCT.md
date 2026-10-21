@@ -50,8 +50,9 @@ Name: Stow. The name is a verb meaning to put something away carefully where it 
 
 ## Evidence on Hand
 
-The original deployment at orion-paste.vercel.app and its source, now at
-github.com/truepushkar/stow, establish the feature set above. There are no
+The predecessor project, Orion Paste, established the feature set above and
+its source now lives at github.com/truepushkar/stow. It is not currently
+deployed publicly, so there is no live URL to point at. There are no
 customers, testimonials, benchmarks, or usage numbers, and none may be
 invented.
 
