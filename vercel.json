@@ -4,7 +4,6 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.py": {
-      "runtime": "@vercel/python@4.3.0",
       "memory": 1024,
       "maxDuration": 10,
       "includeFiles": "{storage.py,ratelimit.py,frontend/dist/**}"
