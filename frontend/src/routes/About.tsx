@@ -72,7 +72,7 @@ export function About() {
             </Link>
             <a
               className={styles.referenceLink}
-              href="https://github.com/truepushkar/orion-paste"
+              href="https://github.com/truepushkar/stow"
               target="_blank"
               rel="noreferrer noopener"
             >

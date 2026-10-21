@@ -139,7 +139,7 @@ export function Terms() {
         <p>
           The Stow software is licensed under the{' '}
           <a
-            href="https://github.com/truepushkar/orion-paste/blob/main/LICENSE"
+            href="https://github.com/truepushkar/stow/blob/main/LICENSE"
             target="_blank"
             rel="noreferrer noopener"
           >

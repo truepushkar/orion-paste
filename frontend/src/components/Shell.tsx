@@ -90,7 +90,7 @@ function StatusStrip({ children }: { children?: ReactNode }) {
         </Link>
         <a
           className={styles.statusLink}
-          href="https://github.com/truepushkar/orion-paste"
+          href="https://github.com/truepushkar/stow"
           target="_blank"
           rel="noreferrer noopener"
         >
