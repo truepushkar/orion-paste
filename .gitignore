@@ -4,6 +4,19 @@ __pycache__/
 *$py.class
 
 test.md
+
+# Stow
+instance/
+.env
+.pytest_cache/
+frontend/node_modules/
+frontend/dist/
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/*.txt
+.impeccable/*.js
+.impeccable/decision-payload*.json
+
 # C extensions
 *.so
 

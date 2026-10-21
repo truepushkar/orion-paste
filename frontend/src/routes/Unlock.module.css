@@ -1,0 +1,144 @@
+/* The unlock screen is a single column on the ground, bounded by nothing. The
+   only line is the rule above the metadata. */
+
+/* The band repeats the entry name so the reader knows what they are opening.
+   It is chrome, not a headline, so it stays at interface scale. */
+.title {
+  font-size: var(--text-md);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.wrap {
+  display: grid;
+  place-items: start center;
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(var(--s-8), 12vh, var(--s-10)) var(--s-5) var(--s-8);
+}
+
+.panel {
+  width: 100%;
+  max-width: 40ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  animation: settle var(--dur-3) var(--ease-out) both;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-4);
+  color: var(--signal);
+}
+
+.headline {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.note {
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--ink-3);
+  max-width: 46ch;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.inputRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  height: 36px;
+  padding-right: var(--s-9);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+.reveal {
+  position: absolute;
+  right: var(--s-3);
+  color: var(--ink-4);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--r-1);
+  transition: color var(--dur-1) linear, background var(--dur-1) linear;
+}
+
+.reveal:hover {
+  color: var(--ink-2);
+  background: var(--ground-3);
+}
+
+.submit {
+  height: 34px;
+  width: 100%;
+  font-size: var(--text-base);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--text-sm);
+  color: #f0a396;
+  line-height: 1.4;
+  animation: settle var(--dur-2) var(--ease-out) both;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  color: var(--ink-4);
+}
+
+.slug {
+  color: var(--ink-3);
+}
+
+.dot {
+  width: 2px;
+  height: 2px;
+  border-radius: var(--r-full);
+  background: var(--ink-4);
+}
+
+.escape {
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule-hard);
+  align-self: flex-start;
+  transition: color var(--dur-1) linear, text-decoration-color var(--dur-1) linear;
+}
+
+.escape:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink-3);
+}

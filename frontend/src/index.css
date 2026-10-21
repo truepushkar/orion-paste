@@ -1,0 +1,336 @@
+@import './styles/tokens.css';
+
+@font-face {
+  font-family: 'Archivo Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Martian Mono Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url('@fontsource-variable/martian-mono/files/martian-mono-latin-wght-normal.woff2') format('woff2-variations');
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Browser surfaces belong to the design too. */
+::selection {
+  background: var(--signal-wash);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 1px solid var(--signal);
+  outline-offset: 2px;
+  border-radius: var(--r-1);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-hard) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rule-hard);
+  border: 3px solid var(--ground);
+  border-radius: var(--r-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-4);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+textarea,
+input {
+  caret-color: var(--signal);
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Code rendering. Applies to the read view, the editor's highlight layer and
+   the SEO fallback block, so all three agree on colour.
+   --------------------------------------------------------------------------- */
+
+.code-text {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-variant-ligatures: none;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.code-text .token.comment,
+.code-text .token.prolog,
+.code-text .token.doctype,
+.code-text .token.cdata {
+  color: var(--syn-comment);
+  font-style: italic;
+}
+
+.code-text .token.punctuation {
+  color: var(--syn-punct);
+}
+
+.code-text .token.property,
+.code-text .token.tag,
+.code-text .token.constant,
+.code-text .token.symbol,
+.code-text .token.deleted {
+  color: var(--syn-tag);
+}
+
+.code-text .token.boolean,
+.code-text .token.number {
+  color: var(--syn-number);
+}
+
+.code-text .token.selector,
+.code-text .token.attr-name,
+.code-text .token.string,
+.code-text .token.char,
+.code-text .token.builtin,
+.code-text .token.inserted {
+  color: var(--syn-string);
+}
+
+.code-text .token.operator,
+.code-text .token.entity,
+.code-text .token.url {
+  color: var(--syn-operator);
+  background: none;
+}
+
+.code-text .token.atrule,
+.code-text .token.attr-value,
+.code-text .token.keyword {
+  color: var(--syn-keyword);
+}
+
+.code-text .token.function,
+.code-text .token.class-name {
+  color: var(--syn-function);
+}
+
+.code-text .token.regex,
+.code-text .token.important,
+.code-text .token.variable {
+  color: var(--syn-attr);
+}
+
+/* Markdown. A heading is the loudest thing in the document, so it takes the
+   bone ink rather than a colour; emphasis and links take the accent voices so
+   the structure reads at a glance without turning into a paint chart. */
+.code-text .token.title,
+.code-text .token.title .token.punctuation {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.code-text .token.bold {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.code-text .token.italic {
+  color: var(--syn-attr);
+}
+
+.code-text .token.blockquote {
+  color: var(--syn-comment);
+}
+
+.code-text .token.list.punctuation {
+  color: var(--signal);
+}
+
+.code-text .token.code-snippet,
+.code-text .token.code-snippet .token.punctuation {
+  color: var(--syn-string);
+}
+
+.code-text .token.hr {
+  color: var(--rule-hard);
+}
+
+.code-text .token.important,
+.code-text .token.bold {
+  font-weight: 600;
+}
+
+.code-text .token.italic {
+  font-style: italic;
+}
+
+/* The SEO / no-JS fallback, kept legible and out of the app's way. */
+.seo-entry {
+  margin: 0;
+  padding: var(--s-8);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--ink-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ---------------------------------------------------------------------------
+   The single authored motion moment: content settles in once, from an
+   already-visible default, on an exponential ease-out.
+   --------------------------------------------------------------------------- */
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

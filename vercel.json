@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "runtime": "@vercel/python@4.3.0",
+      "memory": 1024,
+      "maxDuration": 10,
+      "includeFiles": "{storage.py,ratelimit.py,frontend/dist/**}"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.py" },
+    { "source": "/raw/(.*)", "destination": "/api/index.py" },
+    { "source": "/p/(.*)", "destination": "/api/index.py" },
+    { "source": "/edit/(.*)", "destination": "/api/index.py" },
+    { "source": "/about", "destination": "/api/index.py" },
+    { "source": "/terms", "destination": "/api/index.py" },
+    { "source": "/privacy", "destination": "/api/index.py" }
+  ]
+}

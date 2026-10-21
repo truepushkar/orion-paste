@@ -1,0 +1,167 @@
+/* The read view: the document fills the surface, and the entry's facts sit in
+   a narrow margin below it rather than in a card floating over the text. */
+
+.document {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.document > :first-child {
+  flex: 1;
+  min-height: 0;
+}
+
+.facts {
+  border-top: 1px solid var(--rule-soft);
+  padding: var(--s-3) var(--s-6) var(--s-3) var(--s-8);
+  background: var(--ground-2);
+  flex: none;
+  overflow-x: auto;
+}
+
+.factList {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-7);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.factList > div {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+}
+
+.factList dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.factList dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------------------- Top band */
+
+.title {
+  font-size: var(--text-md);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.slugChip {
+  color: var(--ink-3);
+  flex: none;
+}
+
+.rawCopy {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  transition: color var(--dur-1) linear;
+}
+
+.rawCopy:hover {
+  color: var(--ink-2);
+}
+
+/* ------------------------------------------------------------- States */
+
+.centered {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--s-7);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-4);
+  max-width: 42ch;
+}
+
+.panelTitle {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.024em;
+  line-height: 1.2;
+}
+
+.panelNote {
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.skeletonTitle {
+  width: 180px;
+  height: 13px;
+}
+
+.skeletonBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-6) var(--s-8) var(--s-6) var(--s-9);
+}
+
+.skeletonLine {
+  height: 11px;
+}
+
+.loadingNote {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+@media (max-width: 900px) {
+  /* The slug is a detail, not the point, and on a narrow bar it costs the
+     title the room it needs to be readable. */
+  .slugChip {
+    display: none;
+  }
+
+  .title {
+    font-size: var(--text-sm);
+  }
+
+  /* Facts scroll sideways rather than clipping mid-word. */
+  .facts {
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .factList {
+    gap: var(--s-5);
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  .factList > div {
+    gap: var(--s-2);
+  }
+
+  .skeletonBody {
+    padding: var(--s-5) var(--s-4);
+  }
+}

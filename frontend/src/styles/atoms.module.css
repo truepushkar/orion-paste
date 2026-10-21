@@ -1,0 +1,347 @@
+/* Shared interface atoms. Kept in one stylesheet because they are one
+   vocabulary: a seam, a field, a segmented control, a button.
+
+   Shape rule: 2px radius on controls, no radius on surfaces. Anything that
+   holds a whole region of the screen is square, because in this world
+   regions are bounded by seams, not containers. */
+
+/* ------------------------------------------------------------------ Seam */
+
+.seam {
+  background: var(--rule);
+  border: 0;
+  flex: none;
+}
+
+.seamH {
+  height: 1px;
+  width: 100%;
+}
+
+.seamV {
+  width: 1px;
+  align-self: stretch;
+}
+
+/* ----------------------------------------------------------------- Buttons */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  height: 28px;
+  padding: 0 var(--s-4);
+  border-radius: var(--r-1);
+  border: 1px solid var(--rule);
+  background: var(--ground-3);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    background var(--dur-1) linear,
+    border-color var(--dur-1) linear,
+    color var(--dur-1) linear,
+    transform var(--dur-1) var(--ease-out);
+}
+
+.button:hover:not(:disabled) {
+  background: var(--ground-4);
+  border-color: var(--rule-hard);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  color: var(--ink-4);
+  background: var(--ground-2);
+  border-color: var(--rule-soft);
+}
+
+.buttonQuiet {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-2);
+}
+
+.buttonQuiet:hover:not(:disabled) {
+  background: var(--ground-3);
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+.buttonPrimary {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--signal-ink);
+  font-weight: 600;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  background: #ef6247;
+  border-color: #ef6247;
+}
+
+.buttonPrimary:active:not(:disabled) {
+  background: var(--signal-dim);
+  border-color: var(--signal-dim);
+}
+
+.buttonPrimary:disabled {
+  background: var(--ground-3);
+  border-color: var(--rule);
+  color: var(--ink-4);
+}
+
+.buttonDanger {
+  color: var(--danger);
+  border-color: transparent;
+  background: transparent;
+}
+
+.buttonDanger:hover:not(:disabled) {
+  background: var(--danger-wash);
+  border-color: rgba(216, 80, 60, 0.3);
+  color: var(--danger);
+}
+
+/* On narrow screens a secondary action keeps its icon and drops its word.
+   The icon carries the meaning, an aria-label carries it for assistive tech,
+   and the bar stops overflowing. The primary action never compacts. */
+@media (max-width: 900px) {
+  .buttonCompactable {
+    padding: 0 var(--s-3);
+    gap: 0;
+  }
+
+  .buttonCompactable .buttonLabel {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------- Text field */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.fieldLabel {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.fieldNote {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-4);
+}
+
+.input {
+  width: 100%;
+  height: 30px;
+  padding: 0 var(--s-4);
+  background: var(--ground);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  color: var(--ink);
+  font-size: var(--text-base);
+  transition: border-color var(--dur-1) linear, background var(--dur-1) linear;
+}
+
+.input::placeholder {
+  color: var(--ink-4);
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--rule-hard);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--signal);
+  background: var(--ground);
+}
+
+.input:disabled {
+  color: var(--ink-3);
+  background: var(--ground-2);
+}
+
+.inputMono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.fieldError {
+  font-size: var(--text-xs);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* --------------------------------------------------------- Segmented set */
+
+.segment {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  overflow: hidden;
+  background: var(--ground);
+}
+
+.segmentOption {
+  min-width: 34px;
+  height: 26px;
+  padding: 0 var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--dur-1) linear, color var(--dur-1) linear;
+}
+
+.segmentOption + .segmentOption {
+  border-left: 1px solid var(--rule);
+}
+
+.segmentOption:hover {
+  color: var(--ink);
+  background: var(--ground-3);
+}
+
+.segmentOption[data-on='true'] {
+  background: var(--ink);
+  color: var(--ground);
+  font-weight: 500;
+}
+
+/* ------------------------------------------------------------------ Chips */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  height: 19px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.chipSignal {
+  color: var(--signal);
+  border-color: rgba(226, 84, 58, 0.34);
+  background: var(--signal-wash);
+}
+
+.chipSea {
+  color: var(--sea);
+  border-color: var(--sea-dim);
+  background: var(--sea-wash);
+}
+
+/* ------------------------------------------------------------------- Key */
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  height: 17px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ Toggle */
+
+.switch {
+  position: relative;
+  width: 26px;
+  height: 15px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--rule-hard);
+  background: var(--ground);
+  flex: none;
+  transition: background var(--dur-2) var(--ease-out), border-color var(--dur-2) linear;
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 9px;
+  height: 9px;
+  border-radius: var(--r-full);
+  background: var(--ink-3);
+  transition: transform var(--dur-2) var(--ease-out), background var(--dur-2) linear;
+}
+
+.switch[data-on='true'] {
+  background: var(--signal-wash);
+  border-color: var(--signal);
+}
+
+.switch[data-on='true']::after {
+  transform: translateX(11px);
+  background: var(--signal);
+}
+
+/* --------------------------------------------------------------- Skeleton */
+
+.skeleton {
+  background: var(--ground-3);
+  border-radius: var(--r-1);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(232, 226, 212, 0.045),
+    transparent
+  );
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: sheen 1.6s var(--ease-out) infinite;
+}
+
+@keyframes sheen {
+  from {
+    background-position: -70% 0;
+  }
+  to {
+    background-position: 170% 0;
+  }
+}

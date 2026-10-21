@@ -1,0 +1,123 @@
+/* The about page is a read surface: one measured column, generous rhythm, and
+   no decoration competing with the sentences. */
+
+.wrap {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.article {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: clamp(var(--s-8), 9vh, var(--s-10)) var(--s-5) var(--s-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-9);
+  /* The shell clips the middle band, so the article owns its own scroll and
+     must leave room for the last line to clear the status strip. */
+  padding-bottom: calc(var(--s-10) + var(--s-6));
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  animation: settle var(--dur-3) var(--ease-out) both;
+}
+
+.headline {
+  font-size: clamp(28px, 4.4vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.032em;
+  line-height: 1.06;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.lede {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+.cta {
+  height: 32px;
+  padding: 0 var(--s-5);
+  align-self: flex-start;
+  margin-top: var(--s-2);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-7);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s-7);
+}
+
+.section {
+  display: grid;
+  grid-template-columns: 18ch minmax(0, 1fr);
+  gap: var(--s-5);
+  align-items: start;
+}
+
+.sectionHeading {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 400;
+  padding-top: 3px;
+}
+
+.sectionBody {
+  font-size: var(--text-md);
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+
+.bandNote {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* The reading path's end: every other document, one tap away. */
+.reference {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-6);
+  padding-top: var(--s-6);
+  border-top: 1px solid var(--rule-soft);
+  margin-top: var(--s-2);
+}
+
+.referenceLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-hard);
+  text-underline-offset: 4px;
+  transition: color var(--dur-1) linear, text-decoration-color var(--dur-1) linear;
+}
+
+.referenceLink:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink-3);
+}
+
+@media (max-width: 720px) {
+  .section {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-2);
+  }
+}

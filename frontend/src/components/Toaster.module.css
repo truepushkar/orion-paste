@@ -1,0 +1,66 @@
+/* The toast sits on the status strip's baseline and uses a hairline, like
+   everything else in the world. It is a report, not a celebration. */
+
+.viewport {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--status) + var(--s-5));
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  max-width: min(92vw, 460px);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-5);
+  background: var(--ground-3);
+  border: 1px solid var(--rule-hard);
+  border-radius: var(--r-1);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  letter-spacing: -0.005em;
+  animation: toast-in var(--dur-3) var(--ease-out) both;
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mark {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--r-full);
+  background: var(--sea);
+  flex: none;
+}
+
+.toast[data-tone='failed'] .mark {
+  background: var(--danger);
+}
+
+.toast[data-tone='note'] .mark {
+  background: var(--ink-3);
+}
+
+.message {
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .viewport {
+    bottom: calc(var(--status) + var(--s-4));
+  }
+}

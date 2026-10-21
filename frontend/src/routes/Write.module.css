@@ -1,0 +1,61 @@
+/* The write screen is the shell's middle band, split into the document and
+   the settings rail. On narrow screens the two stack and the page becomes a
+   normal scroller, because a 300px rail beside a 360px editor serves nobody. */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--rail);
+  min-height: 0;
+  height: 100%;
+}
+
+.write {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-5);
+  background: var(--danger-wash);
+  border-bottom: 1px solid rgba(216, 80, 60, 0.28);
+  color: #f0a396;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.error span {
+  min-width: 0;
+}
+
+.dismiss {
+  margin-left: auto;
+  flex: none;
+  font-size: var(--text-xs);
+  color: var(--danger);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.8;
+}
+
+.dismiss:hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  .write {
+    min-height: 42vh;
+  }
+}

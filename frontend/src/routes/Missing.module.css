@@ -1,0 +1,43 @@
+.wrap {
+  display: grid;
+  place-items: start center;
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(var(--s-8), 14vh, var(--s-10)) var(--s-5) var(--s-8);
+}
+
+.panel {
+  width: 100%;
+  max-width: 44ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  animation: settle var(--dur-3) var(--ease-out) both;
+}
+
+.headline {
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.note {
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding-top: var(--s-3);
+  flex-wrap: wrap;
+}
+
+.actions > a {
+  height: 30px;
+  padding: 0 var(--s-5);
+}

@@ -1,0 +1,208 @@
+/* The shell grid. Rows are fixed chrome, the middle takes the rest, and the
+   whole thing is exactly one viewport tall: this is an application, not a
+   document that scrolls behind a header. */
+
+.app {
+  display: grid;
+  grid-template-rows: var(--bar) minmax(0, 1fr) var(--status);
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--ground);
+}
+
+/* ------------------------------------------------------------------- Top */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+  padding: 0 var(--s-6) 0 var(--s-5);
+  background: var(--ground-2);
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  z-index: var(--z-sticky);
+  min-width: 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex: none;
+  color: var(--ink);
+  border-radius: var(--r-1);
+}
+
+.mark {
+  color: var(--signal);
+  flex: none;
+}
+
+.brandName {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  flex: none;
+}
+
+.navLink {
+  padding: var(--s-1) var(--s-3);
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  border-radius: var(--r-1);
+  transition: color var(--dur-1) linear, background var(--dur-1) linear;
+}
+
+.navLink:hover {
+  color: var(--ink);
+  background: var(--ground-3);
+}
+
+.navLink[data-active='true'] {
+  color: var(--ink);
+}
+
+/* The centre band carries whatever the page is about: the entry name on the
+   read view, nothing on the write view. */
+.band {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.barActions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-left: auto;
+  flex: none;
+}
+
+/* ----------------------------------------------------------------- Middle */
+
+.main {
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----------------------------------------------------------------- Status */
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-6) 0 var(--s-5);
+  background: var(--ground-2);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  min-width: 0;
+}
+
+.statusLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.statusRight {
+  margin-left: auto;
+  color: var(--ink-4);
+  flex: none;
+  transition: color var(--dur-1) linear;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.statusRight:hover {
+  color: var(--ink-2);
+}
+
+/* Standing reference links: quiet, right-aligned, and never competing with the
+   entry's own metadata on the left. */
+.statusNav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex: none;
+}
+
+.statusLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  transition: color var(--dur-1) linear;
+  white-space: nowrap;
+}
+
+.statusLink:hover {
+  color: var(--ink-2);
+}
+
+@media (max-width: 900px) {
+  .bar {
+    gap: var(--s-3);
+    padding: 0 var(--s-4);
+  }
+
+  /* The nav stays a row of short labels rather than collapsing to a menu:
+     two or three words fit, and hiding two links behind a tap costs more than
+     it saves. It scrolls if a longer label is ever added. */
+  .nav {
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navLink {
+    padding: var(--s-1) var(--s-2);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+  }
+
+  /* The band would otherwise absorb all the free space and squeeze the
+     actions; on a phone the title gets a fixed smaller share. */
+  .band {
+    flex: 0 1 auto;
+    gap: var(--s-2);
+  }
+
+  .status {
+    padding: 0 var(--s-4);
+    gap: var(--s-3);
+  }
+
+  /* The page's own metadata and the product's standing links cannot both fit
+     on a 390px strip, and the metadata is what the strip is for. The standing
+     links live in the About page and are reachable from there. */
+  .statusNav {
+    display: none;
+  }
+
+  .statusLeft {
+    gap: var(--s-3);
+  }
+}

@@ -1,0 +1,166 @@
+/* Endpoint signatures, parameter tables and status lists. These are the parts
+   of a reference that must scan rather than read, so they use a fixed grid
+   and a monospaced first column. */
+
+.sig {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  flex-wrap: wrap;
+  padding: var(--s-3) var(--s-4);
+  background: var(--ground-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.sig code {
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.sigNote {
+  margin-left: auto;
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sea);
+  white-space: nowrap;
+}
+
+.method {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 18px;
+  padding: 0 var(--s-2);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  flex: none;
+}
+
+.method[data-method='GET'] {
+  color: var(--sea);
+  background: var(--sea-wash);
+  border: 1px solid var(--sea-dim);
+}
+
+.method[data-method='POST'] {
+  color: var(--signal);
+  background: var(--signal-wash);
+  border: 1px solid rgba(226, 84, 58, 0.34);
+}
+
+/* ------------------------------------------------------------------ Table */
+
+.table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  overflow: hidden;
+  font-size: var(--text-sm);
+}
+
+.tableHead,
+.tableRow {
+  display: grid;
+  grid-template-columns: minmax(96px, auto) minmax(88px, auto) minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: baseline;
+  padding: var(--s-3) var(--s-4);
+}
+
+/* Two-column tables (errors, limits) drop the middle track. */
+.tableHead:has(> span:nth-child(2):last-child),
+.tableRow:has(> :nth-child(2):last-child) {
+  grid-template-columns: 74px minmax(0, 1fr);
+}
+
+.tableHead {
+  background: var(--ground-3);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.tableRow {
+  border-bottom: 1px solid var(--rule-soft);
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+.tableRow:last-child {
+  border-bottom: 0;
+}
+
+.tableRow:hover {
+  background: var(--ground-2);
+}
+
+.tableRow code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.tableRow > span:first-child:not(.method) {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+
+.status {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- Language */
+
+.languageList {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 2;
+  color: var(--ink-3) !important;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  padding: var(--s-3) 0;
+}
+
+@media (max-width: 720px) {
+  .tableHead,
+  .tableRow {
+    grid-template-columns: minmax(70px, auto) minmax(0, 1fr);
+    gap: var(--s-3);
+    padding: var(--s-3);
+  }
+
+  /* The third column is the explanation, so it wraps under the row rather than
+     being dropped: a table cell that vanishes is a table that lies. */
+  .tableHead > span:nth-child(3) {
+    display: none;
+  }
+
+  .tableRow > :nth-child(3) {
+    grid-column: 1 / -1;
+    padding-top: var(--s-1);
+    font-size: var(--text-xs);
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  .tableRow > span:nth-child(2) {
+    font-size: var(--text-xs);
+  }
+}

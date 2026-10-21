@@ -1,0 +1,244 @@
+/* The writing field: a numbered document on the ground, with no box around
+   it. The only lines are the gutter rule and the two seams that bound the
+   head and foot bands. */
+
+/* One set of metrics for the gutter, the highlighter and the textarea. If
+   these change, all three move together, which is the only way the line
+   numbers stay on their lines. */
+.editor {
+  --code-line: 1.75;
+  --pad-top: var(--s-5);
+  --pad-bottom: var(--s-10);
+  --pad-left: var(--s-5);
+  --pad-right: var(--s-8);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-height: 0;
+  height: 100%;
+  background: var(--ground);
+}
+
+/* -------------------------------------------------------------------- Head */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  height: 34px;
+  padding: 0 var(--s-6) 0 var(--s-5);
+  border-bottom: 1px solid var(--rule-soft);
+  min-width: 0;
+}
+
+.headLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.headRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  flex: none;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.detected {
+  font-size: var(--text-xs);
+  color: var(--signal);
+  border-bottom: 1px solid rgba(226, 84, 58, 0.4);
+  padding-bottom: 1px;
+  white-space: nowrap;
+  transition: border-color var(--dur-1) linear;
+}
+
+.detected:hover {
+  border-color: var(--signal);
+}
+
+.counts {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  white-space: nowrap;
+}
+
+.counts span:not(.dot) {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 2px;
+  height: 2px;
+  border-radius: var(--r-full);
+  background: var(--ink-4);
+  display: inline-block;
+}
+
+/* ----------------------------------------------------------------- Surface */
+
+.surface {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  min-height: 0;
+  position: relative;
+}
+
+.gutter {
+  overflow: hidden;
+  padding-top: var(--pad-top);
+  padding-bottom: var(--pad-bottom);
+  border-right: 1px solid var(--rule-soft);
+  background: var(--ground);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--code-line);
+  text-align: right;
+  user-select: none;
+}
+
+.gutter span {
+  display: block;
+  padding-right: var(--s-4);
+  color: var(--ink-4);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--dur-1) linear;
+}
+
+.gutter span[data-current='true'] {
+  color: var(--signal);
+}
+
+.field {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The highlighter and the textarea must agree on every metric, or the caret
+   drifts off the colour. One declaration, shared, and both read the same
+   custom properties so the gutter matches without duplicating numbers. */
+.highlight,
+.input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: var(--pad-top) var(--pad-right) var(--pad-bottom) var(--pad-left);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--code-line);
+  font-variant-ligatures: none;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  border: 0;
+}
+
+.highlight {
+  overflow: hidden;
+  color: var(--ink);
+  pointer-events: none;
+  background: transparent;
+}
+
+.input {
+  resize: none;
+  background: transparent;
+  color: transparent;
+  overflow: auto;
+  outline: none;
+  -webkit-text-fill-color: transparent;
+}
+
+.input::placeholder {
+  color: var(--ink-4);
+  -webkit-text-fill-color: var(--ink-4);
+}
+
+.input:disabled {
+  cursor: progress;
+}
+
+/* The caret is drawn by the browser on the transparent textarea, so it takes
+   the palette's signal colour without extra work. */
+
+/* -------------------------------------------------------------------- Foot */
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  height: 28px;
+  padding: 0 var(--s-6) 0 var(--s-5);
+  border-top: 1px solid var(--rule-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-4);
+}
+
+.position {
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  color: var(--ink-3);
+  font-size: var(--text-2xs);
+}
+
+@media (max-width: 900px) {
+  .head,
+  .foot {
+    padding: 0 var(--s-4);
+  }
+
+  .surface {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .editor {
+    --pad-left: var(--s-3);
+    --pad-right: var(--s-4);
+  }
+
+  .highlight,
+  .input {
+    padding: var(--pad-top) var(--pad-right) var(--pad-bottom)
+      var(--pad-left);
+  }
+
+  .counts {
+    display: none;
+  }
+}

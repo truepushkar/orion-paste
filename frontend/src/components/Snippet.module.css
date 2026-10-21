@@ -1,0 +1,81 @@
+/* A code sample in a document. The bound is a hairline, the label is a seam
+   at the top, and nothing is rounded: it is a printed extract, not a widget. */
+
+.snippet {
+  margin: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  background: var(--ground-2);
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  height: 26px;
+  padding: 0 var(--s-2) 0 var(--s-4);
+  border-bottom: 1px solid var(--rule-soft);
+  background: var(--ground-3);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: none;
+  height: 18px;
+  padding: 0 var(--s-2);
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  transition: color var(--dur-1) linear, background var(--dur-1) linear;
+}
+
+.copy:hover {
+  color: var(--ink);
+  background: var(--ground-4);
+}
+
+.body {
+  margin: 0;
+  padding: var(--s-4) var(--s-5);
+  overflow-x: auto;
+  background: transparent;
+}
+
+.body code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  white-space: pre;
+  color: var(--ink);
+  display: block;
+  tab-size: 2;
+}
+
+@media (max-width: 720px) {
+  .body {
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .body code {
+    font-size: var(--text-xs);
+  }
+}

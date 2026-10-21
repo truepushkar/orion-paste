@@ -1,0 +1,118 @@
+/* Stow design tokens.
+
+   One world: a chart table at night. Graphite grounds dyed blue-green rather
+   than neutral grey, bone ink for text, hairline seams instead of shadows, and
+   a single signal vermilion that means "here" and nothing else.
+
+   Two rules hold the page together:
+   1. Elevation is a hairline or one step of ground. Never a shadow.
+   2. Vermilion is a position marker. It never decorates. */
+
+:root {
+  /* Grounds, darkest to lightest. Every step is a real surface. */
+  --ground: #0b1420;      /* the writing field, and the page itself */
+  --ground-2: #0e1a28;    /* persistent chrome: bars, rails, panels */
+  --ground-3: #122132;    /* raised inside a panel: tabs, inputs */
+  --ground-4: #17293c;    /* pressed and selected fills */
+
+  /* Seams. --rule is visible structure; --rule-soft subdivides inside. */
+  --rule: #1d2f42;
+  --rule-soft: #16273a;
+  --rule-hard: #2b4256;
+
+  /* Bone ink, in four steps of confidence.
+     Steps 1 to 3 all clear 4.5:1 against --ground, because each is used for
+     text at 12px or below. Step 4 is reserved for non-text marks. */
+  --ink: #e8e2d4;
+  --ink-2: #b3bfca;
+  --ink-3: #8b9dae;
+  --ink-4: #7a8d9f;
+
+  /* The one accent. */
+  --signal: #e2543a;
+  --signal-ink: #0b1420;
+  --signal-dim: #b23f2b;
+  --signal-wash: rgba(226, 84, 58, 0.12);
+
+  /* Meaning, used only where it carries it. */
+  --sea: #4f9d8a;
+  --sea-dim: #2a5a4f;
+  --sea-wash: rgba(79, 157, 138, 0.12);
+  --danger: #d8503c;
+  --danger-wash: rgba(216, 80, 60, 0.1);
+
+  /* Syntax, desaturated to sit inside the world rather than on it. Every value
+     here is at least 4.5:1 on the ground, because code is the content. */
+  --syn-comment: #93a5b3;
+  --syn-keyword: #e09a6e;
+  --syn-string: #a6c79a;
+  --syn-number: #dcb87f;
+  --syn-function: #b0cde2;
+  --syn-operator: #a3b6c6;
+  --syn-punct: #93a5b3;
+  --syn-attr: #d4b3d0;
+  --syn-tag: #dc9c8a;
+
+  /* Type. Archivo, an industrial grotesque drawn for signage and dense
+     readouts, carries the interface. Martian Mono sets every entry: it is
+     wide and unmistakable, which is what a document surface wants. */
+  --font-ui: 'Archivo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Martian Mono Variable', ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, monospace;
+
+  --text-2xs: 9px;
+  --text-xs: 10.5px;
+  --text-sm: 11.5px;
+  --text-base: 12.5px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 19px;
+  --text-2xl: 24px;
+
+  /* Space on a 2px grid so 1px seams stay in phase with layout. */
+  --s-1: 2px;
+  --s-2: 4px;
+  --s-3: 8px;
+  --s-4: 12px;
+  --s-5: 16px;
+  --s-6: 20px;
+  --s-7: 24px;
+  --s-8: 32px;
+  --s-9: 44px;
+  --s-10: 56px;
+
+  /* Near-square. This world has no softness. */
+  --r-1: 2px;
+  --r-2: 3px;
+  --r-full: 999px;
+
+  /* Chrome measurements, in one place so the shell and pages agree. */
+  --bar: 52px;
+  --status: 40px;
+  --rail: 300px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 90ms;
+  --dur-2: 160ms;
+  --dur-3: 260ms;
+
+  --z-sticky: 20;
+  --z-overlay: 60;
+  --z-toast: 80;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --rail: 0px;
+    --bar: 48px;
+    --status: 38px;
+  }
+}
+
+/* Reduced motion is a hard stop, not a slowdown. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+    --dur-3: 0ms;
+  }
+}

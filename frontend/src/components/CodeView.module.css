@@ -1,0 +1,111 @@
+/* The document surface. No card, no border, no radius: the page is the
+   container, and the only line is the gutter rule. */
+
+.view {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  background: var(--ground);
+}
+
+.scroller {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.rows {
+  padding: var(--s-6) 0 var(--s-10);
+  min-width: min-content;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--gutter) 1fr;
+  column-gap: var(--s-5);
+  padding-right: var(--s-9);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--ink-4);
+  text-align: right;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  tab-size: 2;
+  display: block;
+  color: var(--ink);
+}
+
+/* No-wrap is the default: code keeps its own shape and scrolls sideways,
+   which is what every editor the visitor already uses does. */
+.view[data-wrap='off'] .code {
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.view[data-wrap='on'] .code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.view[data-wrap='on'] .rows {
+  min-width: 0;
+}
+
+.row:hover .num {
+  color: var(--ink-3);
+}
+
+.wrapToggle {
+  position: absolute;
+  right: var(--s-4);
+  bottom: var(--s-4);
+  z-index: var(--z-sticky);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--ground-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  padding: var(--s-1) var(--s-3);
+  opacity: 0;
+  transition: opacity var(--dur-2) var(--ease-out), color var(--dur-1) linear;
+}
+
+.view:hover .wrapToggle,
+.wrapToggle:focus-visible {
+  opacity: 1;
+}
+
+.wrapToggle:hover {
+  color: var(--ink);
+  border-color: var(--rule-hard);
+}
+
+@media (max-width: 640px) {
+  .wrapToggle {
+    opacity: 1;
+  }
+
+  .num {
+    font-size: var(--text-xs);
+  }
+
+  .code {
+    font-size: var(--text-sm);
+  }
+}
