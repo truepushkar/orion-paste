@@ -1,109 +1,102 @@
 # Deploying Stow
 
-## Which database to use on Vercel
+Stow is a single Flask process that serves both the JSON API and the built React client. That shape is deliberate: a paste link, its crawler preview and its raw body all come from one origin, with no cross-origin calls and no second service to keep in sync.
 
-Vercel is serverless: each request may run in a fresh container, and the filesystem is temporary. **SQLite cannot be used there**, and Stow now refuses to start rather than silently losing data.
+## Running it anywhere
 
-| Option | Free tier | Works on Vercel | Verdict |
-|---|---|---|---|
-| **MongoDB Atlas (M0)** | 512 MB, shared | Yes | **Use this.** Stow already speaks MongoDB, and this is the path of least resistance. |
-| Neon / Supabase (Postgres) | ~0.5 GB | Yes | Good, but needs a small storage adapter (`storage.py` has one interface, so it is a single class). |
-| Upstash Redis | 256 MB | Yes | Fine for key/value, but no queries and awkward for expiry cleanup. |
-| Vercel Postgres / KV | Free tier exists | Yes | Convenient, but tied to the platform and billed through it. |
-| SQLite on a volume | n/a | **No** | Vercel has no persistent volume. This is the trap. |
+```bash
+# 1. Dependencies
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 
-**Recommendation: MongoDB Atlas M0.** It is free permanently, needs no credit card, and Stow already has the driver and the queries written.
+# 2. Build the client
+cd frontend && npm install && npm run build && cd ..
 
-### Setting up Atlas
+# 3. Run
+MONGODB_URI="mongodb+srv://..." SECRET_KEY="..." python app.py
+```
 
-1. Create an account at <https://www.mongodb.com/cloud/atlas/register>.
-2. Create a **free M0 cluster**; pick the region closest to your Vercel region.
-3. **Database Access**: add a user with a strong password. This is not your Atlas login.
-4. **Network Access**: add `0.0.0.0/0`. Vercel's functions have no fixed outbound IP on Hobby, so an allowlist of one address will not work. This is the single most common cause of "works locally, times out on Vercel".
-5. **Connect → Drivers**: copy the connection string. Atlas gives you a URI **with no database name in the path**:
+With `gunicorn` for production:
+
+```bash
+gunicorn --workers 4 --bind 0.0.0.0:8000 app:app
+```
+
+Set `BASE_URL` to the public origin so share links, canonical URLs and Open Graph tags point at the right host.
+
+## Which database
+
+| Option | Free tier | Notes |
+|---|---|---|
+| **MongoDB Atlas M0** | 512 MB | **Recommended.** Stow speaks it natively; no adapter needed. |
+| SQLite | file on disk | The zero-config default for local runs. Needs a persistent volume. |
+| Postgres (Neon, Supabase) | ~0.5 GB | Fine, but needs a small storage adapter. `storage.py` defines one interface, so it is a single class. |
+
+### MongoDB Atlas setup
+
+1. Create a free **M0** cluster at <https://www.mongodb.com/cloud/atlas/register>.
+2. **Database Access**: add a user with a strong password. This is not your Atlas login.
+3. **Network Access**: allow your host's outbound addresses. For a VPS that is its IP; for a platform with no fixed egress, `0.0.0.0/0`.
+4. **Connect → Drivers**: copy the URI.
+
+Atlas hands out URIs with **no database name in the path**:
 
 ```
 mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
 ```
 
-That is valid and Stow handles it: it falls back to `MONGODB_DB`, then to `stow`. To choose explicitly, add the name before the `?`:
+That is valid. Stow falls back to `MONGODB_DB`, then to `stow`. To be explicit, put the name before the `?`:
 
 ```
 mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/stow?retryWrites=true&w=majority
 ```
 
-If your password contains `@`, `:`, `/` or `?`, percent-encode it first.
+Percent-encode any of `@ : / ?` that appear in your password.
 
-Free M0 limits: 512 MB storage, shared CPU, and it may pause after long inactivity. For a paste tool that is far more room than you need; an average paste is a few kilobytes.
+## Environment variables
 
-## Deploying
+| Name | Required | Purpose |
+|---|---|---|
+| `MONGODB_URI` | in production | Atlas connection string. Unset means SQLite, which only makes sense with a persistent disk. |
+| `MONGODB_DB` | no | Database name when the URI omits one. Defaults to `stow`. |
+| `SECRET_KEY` | in production | Signs read tokens. If it changes, every open protected session is invalidated. |
+| `BASE_URL` | recommended | Public origin, used for links and canonical URLs. |
+| `MAX_CONTENT_CHARS` | no | Entry size cap. Default `500000`. |
+| `RATE_CREATE_LIMIT` | no | New entries per address per minute. Default `10`. |
+| `RATE_READ_LIMIT` | no | Reads per address per minute. Default `120`. |
+| `RATE_UNLOCK_LIMIT` | no | Password attempts per address per minute. Default `12`. |
+| `PORT` | no | Listen port. Default `5000`. |
 
-### 1. Environment variables
-
-Set these in Vercel under **Project → Settings → Environment Variables** (all environments):
-
-| Name | Value |
-|---|---|
-| `MONGODB_URI` | your Atlas connection string |
-| `MONGODB_DB` | optional; the database name, if the URI omits it and `stow` is not what you want |
-| `SECRET_KEY` | a long random string |
-| `BASE_URL` | `https://your-project.vercel.app` |
-
-Generate the secret with:
+Generate a secret with:
 
 ```bash
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-All three are required. Stow fails at boot without them rather than degrading quietly:
+## A note on serverless
 
-- No `MONGODB_URI` on serverless means the SQLite fallback would lose every entry on each deploy, so it refuses to start.
-- No `SECRET_KEY` means every cold start invalidates read tokens for protected entries, so it refuses to start.
+Stow is a long-lived process that owns a writable store. Serverless platforms run each request in a throwaway container with an ephemeral filesystem, which breaks two things here, so the code refuses to start rather than failing quietly:
 
-### 2. Deploy
+- **Storage**: on a serverless platform with no `MONGODB_URI`, boot raises instead of writing SQLite to a temporary disk that loses every entry on the next deploy.
+- **Sessions**: with no `SECRET_KEY`, boot raises instead of minting a key per cold start, which would invalidate every read token already handed out.
 
-```bash
-npm i -g vercel
-vercel            # preview deployment
-vercel --prod     # production
+Those guards exist because both failures are silent. If you want to run this on a serverless host, use a host that gives you a real filesystem (Fly.io with a volume, Railway, Render, a VPS with Docker), or set `MONGODB_URI` and `SECRET_KEY` and accept the cold-start cost. Vercel's zero-config Flask preset owns request routing and does not cooperate with a custom rewrite table, so it is not a good fit without restructuring the app.
+
+## Docker
+
+```dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN cd frontend && npm install && npm run build   # requires node in a build stage
+
+EXPOSE 8000
+CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:8000", "app:app"]
 ```
 
-Or connect the GitHub repository in the Vercel dashboard and let every push deploy.
-
-### 3. What Vercel builds
-
-`vercel.json` configures it:
-
-- **Build**: `cd frontend && npm install && npm run build`
-- **Output**: `frontend/dist`
-- **Function**: `api/index.py`, Python 3.12, 10 second limit
-- **Rewrites**: `/api/*`, `/raw/*`, `/p/*`, `/edit/*`, `/about`, `/terms`, `/privacy` go to the Python function. Everything else is served as a static asset.
-
-`api/index.py` is six lines: Vercel looks for a WSGI callable named `app`, and that file imports the real one from `app.py`. There is no second application to keep in sync.
-
-### Plan requirement
-
-**Python functions on Vercel require a paid plan.** As of writing, Hobby supports Node.js functions but not Python runtimes. If you are on Hobby, `vercel build` will fail on the Python runtime.
-
-Two ways forward:
-
-- **Pro plan**, which unlocks Python functions and this config as written.
-- **Port the API to a Node serverless function.** The API is six endpoints and roughly 300 lines; `storage.py` and `app.py` are the only things that would need rewriting. Say the word and I will do it, but it is a real piece of work rather than a config change.
-
-## Serverless behaviour to expect
-
-- **Cold starts** add a few hundred milliseconds to the first request after idle. The Mongo client is created per instance, so the first query in a new instance includes the connection handshake.
-- **Rate limits are per instance.** On serverless with several concurrent instances, the effective quota is multiplied by the instance count. This is a real limitation and it is documented on the API page rather than hidden.
-- **No background jobs.** Expiry is checked when an entry is read, not by a scheduler, which is why the implementation deletes on access.
-
-## Local development
-
-Unchanged, and deliberately so:
-
-```bash
-pip install -r requirements.txt
-cd frontend && npm install && npm run build && cd ..
-python app.py
-```
-
-With no `MONGODB_URI`, Stow writes to `instance/stow.sqlite3`. Locally that is exactly what you want; on Vercel it is the thing being guarded against.
+For a smaller image, build the client in a `node:20` stage and copy `frontend/dist` into the final image.
