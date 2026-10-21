@@ -30,6 +30,27 @@ load_dotenv()
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / "frontend" / "dist"
 
+
+def _resolve_dist() -> Path:
+    """Where the built client lives.
+
+    Locally that is `frontend/dist` beside this file. A serverless runtime may
+    run the module from a different directory than the one the build output
+    was placed in, so a few candidates are tried before giving up: serving the
+    API with no client is worse than a slightly longer lookup.
+    """
+    candidates = [
+        DIST,
+        Path.cwd() / "frontend" / "dist",
+        Path.cwd() / "dist",
+        Path(os.getenv("STOW_DIST", "")) if os.getenv("STOW_DIST") else DIST,
+    ]
+    for candidate in candidates:
+        if (candidate / "index.html").is_file():
+            return candidate
+    return DIST
+
+
 app = Flask(__name__, static_folder=None)
 
 
@@ -420,7 +441,7 @@ DEFAULT_DESCRIPTION = (
 
 
 def _read_index() -> str:
-    index = DIST / "index.html"
+    index = _resolve_dist() / "index.html"
     if not index.exists():
         return (
             "<!doctype html><meta charset='utf-8'><title>Stow</title>"
@@ -570,9 +591,10 @@ def edit_page(slug: str):
 def static_files(path: str):
     if path.startswith("api/") or path.startswith("raw/"):
         return json_error("Not found", 404)
-    target = DIST / path
+    dist = _resolve_dist()
+    target = dist / path
     if target.is_file():
-        return send_from_directory(DIST, path)
+        return send_from_directory(dist, path)
 
     # A known document gets its own head tags. An unknown path is still served
     # the client (so the router can render its own 404), but with a real 404
