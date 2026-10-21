@@ -2,11 +2,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import styles from './Read.module.css'
 import atoms from '../styles/atoms.module.css'
+import markdownStyles from '../styles/markdown.module.css'
 import { Shell } from '../components/Shell'
 import { CodeView } from '../components/CodeView'
 import { Icon } from '../components/Icon'
 import { useToast } from '../components/Toaster'
 import { usePaste } from '../lib/usePaste'
+import { renderMarkdown } from '../lib/markdown'
 import { UnlockPanel } from './Unlock'
 import { Missing } from './Missing'
 import { copyText, absoluteTime, expiryLabel } from '../lib/format'
@@ -19,6 +21,9 @@ export function Read() {
   const { state, unlock, unlocking } = usePaste(slug)
   const { announce } = useToast()
   const [copied, setCopied] = useState<'link' | 'raw' | null>(null)
+  // Markdown opens rendered, because that is what the author meant by choosing
+  // it. The source is one toggle away, and the choice is remembered per tab.
+  const [showSource, setShowSource] = useState(false)
 
   const pageUrl = useMemo(
     () => (typeof window === 'undefined' ? '' : `${window.location.origin}/p/${slug}`),
@@ -97,6 +102,10 @@ export function Read() {
   const extension = EXTENSIONS[paste.language] ?? 'txt'
   const filename = `${paste.title ? slugify(paste.title) : paste.slug}.${extension}`
   const downloadUrl = `data:text/plain;charset=utf-8,${encodeURIComponent(paste.content)}`
+  const isMarkdown = paste.language === 'markdown'
+  const rendered = isMarkdown
+    ? renderMarkdown(paste.content)
+    : { html: '', headings: [] }
 
   return (
     <Shell
@@ -167,6 +176,19 @@ export function Read() {
           </span>
           <span aria-hidden="true">/</span>
           <span>{paste.chars.toLocaleString()} chars</span>
+          {isMarkdown ? (
+            <>
+              <span aria-hidden="true">/</span>
+              <button
+                type="button"
+                className={styles.rawCopy}
+                onClick={() => setShowSource((value) => !value)}
+                aria-pressed={showSource}
+              >
+                {showSource ? 'view rendered' : 'view source'}
+              </button>
+            </>
+          ) : null}
           <span aria-hidden="true">/</span>
           <button type="button" className={styles.rawCopy} onClick={() => void copy('raw')}>
             {copied === 'raw' ? 'raw copied' : 'copy raw'}
@@ -175,7 +197,18 @@ export function Read() {
       }
     >
       <div className={styles.document}>
-        <CodeView code={paste.content} language={paste.language} />
+        {isMarkdown && !showSource ? (
+          <div className={styles.proseScroll}>
+            <article
+              className={`${markdownStyles.markdown} markdown-body`}
+              // markdown-it runs with html:false, so raw HTML in the source is
+              // escaped rather than injected; every link is rel-scoped above.
+              dangerouslySetInnerHTML={{ __html: rendered.html }}
+            />
+          </div>
+        ) : (
+          <CodeView code={paste.content} language={paste.language} />
+        )}
         <div className={styles.facts}>
           <dl className={styles.factList}>
             <div>

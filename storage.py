@@ -88,11 +88,27 @@ class MongoStore(PasteStore):
             maxIdleTimeMS=45_000,
             serverSelectionTimeoutMS=5_000,
             connectTimeoutMS=10_000,
+            # Serverless instances come and go; a short idle timeout stops them
+            # hoarding sockets the platform will reclaim anyway.
+            appname="stow",
         )
-        database = self.client.get_default_database()
-        self.collection = database.pastes
+        self.collection = self._resolve_database(uri).pastes
         self.collection.create_index([("slug", ASCENDING)], unique=True, background=True)
         self.collection.create_index([("expires_at", ASCENDING)], background=True)
+
+    def _resolve_database(self, uri: str):
+        """Find the database to write to.
+
+        Atlas hands out connection strings with no database in the path, so
+        `get_default_database()` raises on a perfectly valid URI. Writing to an
+        unnamed database is not acceptable either, so the name comes from the
+        URI when present and from MONGODB_DB otherwise, defaulting to `stow`.
+        """
+        try:
+            return self.client.get_default_database()
+        except Exception:  # noqa: BLE001 - ConfigurationError, but be tolerant
+            name = os.getenv("MONGODB_DB", "").strip() or "stow"
+            return self.client[name]
 
     def insert(self, paste: dict[str, Any]) -> None:
         self.collection.insert_one(dict(paste))

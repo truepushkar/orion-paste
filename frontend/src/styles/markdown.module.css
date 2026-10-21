@@ -1,0 +1,284 @@
+/* Rendered Markdown.
+ *
+ * The read view for a markdown entry is a document, so this is the one place
+ * in the product where prose typography (not code) leads. The rules follow the
+ * world: bone ink on the ground, seams instead of boxes, one vermilion accent
+ * on the markers that help you scan.
+ *
+ * Measure is held to 72ch because a Markdown note is read, not scanned.
+ */
+
+.markdown {
+  padding: var(--s-6) var(--s-8) var(--s-10);
+  max-width: calc(72ch + var(--s-10));
+  font-family: var(--font-ui);
+  font-size: var(--text-lg);
+  line-height: 1.65;
+  color: var(--ink-2);
+  overflow-wrap: break-word;
+}
+
+.markdown > :first-child {
+  margin-top: 0;
+}
+
+.markdown > :last-child {
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ Headings */
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: var(--s-8) 0 var(--s-4);
+  scroll-margin-top: var(--s-6);
+}
+
+.markdown h1 {
+  font-size: var(--text-3xl);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-top: var(--s-4);
+}
+
+.markdown h2 {
+  font-size: var(--text-2xl);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.markdown h3 {
+  font-size: var(--text-xl);
+}
+
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  font-size: var(--text-md);
+  letter-spacing: -0.01em;
+}
+
+.markdown h5,
+.markdown h6 {
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: var(--text-sm);
+}
+
+/* -------------------------------------------------------------------- Prose */
+
+.markdown p {
+  margin: 0 0 var(--s-4);
+}
+
+.markdown strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.markdown em {
+  color: var(--ink);
+}
+
+.markdown del {
+  color: var(--ink-4);
+}
+
+.markdown a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-hard);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--dur-1) linear;
+}
+
+.markdown a:hover {
+  text-decoration-color: var(--signal);
+}
+
+/* Lists. The marker is the one piece of decoration the accent is allowed. */
+.markdown ul,
+.markdown ol {
+  margin: 0 0 var(--s-4);
+  padding-left: var(--s-6);
+}
+
+.markdown li {
+  margin-bottom: var(--s-2);
+}
+
+.markdown li > p {
+  margin-bottom: var(--s-2);
+}
+
+.markdown ul {
+  list-style: none;
+  padding-left: var(--s-5);
+}
+
+.markdown ul > li {
+  position: relative;
+}
+
+.markdown ul > li::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--s-4) * -1);
+  top: 0.72em;
+  width: 5px;
+  height: 1px;
+  background: var(--signal);
+}
+
+/* Nested lists get a quieter marker so the hierarchy reads at depth. */
+.markdown ul ul > li::before {
+  background: var(--ink-4);
+}
+
+.markdown ol {
+  list-style: decimal;
+}
+
+.markdown ol > li::marker {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown li::marker {
+  color: var(--ink-4);
+}
+
+/* ------------------------------------------------------------------ Quotes */
+
+.markdown blockquote {
+  margin: var(--s-5) 0;
+  padding: var(--s-1) 0 var(--s-1) var(--s-5);
+  border-left: 1px solid var(--signal);
+  color: var(--ink-3);
+}
+
+.markdown blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------- Code */
+
+.markdown code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  color: var(--ink);
+  background: var(--ground-3);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r-1);
+  padding: 0.12em 0.36em;
+}
+
+.markdown pre {
+  margin: var(--s-5) 0;
+  padding: var(--s-4) var(--s-5);
+  background: var(--ground-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  overflow-x: auto;
+}
+
+.markdown pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: var(--ink);
+  display: block;
+}
+
+/* ------------------------------------------------------------------ Rules */
+
+.markdown hr {
+  height: 0;
+  margin: var(--s-8) 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+/* ------------------------------------------------------------------ Tables */
+
+/* A table in a paste is content, so it scrolls inside its own bound rather
+   than stretching the page, and it is never a card. */
+.markdown table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: var(--s-5) 0;
+  border-collapse: collapse;
+  font-size: var(--text-md);
+}
+
+.markdown thead {
+  border-bottom: 1px solid var(--rule-hard);
+}
+
+.markdown th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  padding: var(--s-2) var(--s-4) var(--s-2) 0;
+  white-space: nowrap;
+}
+
+.markdown td {
+  padding: var(--s-3) var(--s-4) var(--s-3) 0;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+
+.markdown tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ------------------------------------------------------------------ Images */
+
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-1);
+  margin: var(--s-4) 0;
+}
+
+/* ------------------------------------------------------------------- Narrow */
+
+@media (max-width: 900px) {
+  .markdown {
+    padding: var(--s-5) var(--s-4) var(--s-10);
+    font-size: var(--text-md);
+  }
+
+  .markdown h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .markdown h2 {
+    font-size: var(--text-xl);
+  }
+
+  .markdown h3 {
+    font-size: var(--text-lg);
+  }
+}

@@ -20,7 +20,13 @@ Vercel is serverless: each request may run in a fresh container, and the filesys
 2. Create a **free M0 cluster**; pick the region closest to your Vercel region.
 3. **Database Access**: add a user with a strong password. This is not your Atlas login.
 4. **Network Access**: add `0.0.0.0/0`. Vercel's functions have no fixed outbound IP on Hobby, so an allowlist of one address will not work. This is the single most common cause of "works locally, times out on Vercel".
-5. **Connect → Drivers**: copy the connection string and add the database name:
+5. **Connect → Drivers**: copy the connection string. Atlas gives you a URI **with no database name in the path**:
+
+```
+mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+```
+
+That is valid and Stow handles it: it falls back to `MONGODB_DB`, then to `stow`. To choose explicitly, add the name before the `?`:
 
 ```
 mongodb+srv://USER:PASSWORD@cluster0.xxxxx.mongodb.net/stow?retryWrites=true&w=majority
@@ -39,6 +45,7 @@ Set these in Vercel under **Project → Settings → Environment Variables** (al
 | Name | Value |
 |---|---|
 | `MONGODB_URI` | your Atlas connection string |
+| `MONGODB_DB` | optional; the database name, if the URI omits it and `stow` is not what you want |
 | `SECRET_KEY` | a long random string |
 | `BASE_URL` | `https://your-project.vercel.app` |
 

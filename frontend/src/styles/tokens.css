@@ -67,6 +67,9 @@
   --text-lg: 16px;
   --text-xl: 19px;
   --text-2xl: 24px;
+  /* The top of the scale exists for rendered Markdown, the one place where a
+     document heading is the content rather than chrome. */
+  --text-3xl: 30px;
 
   /* Space on a 2px grid so 1px seams stay in phase with layout. */
   --s-1: 2px;

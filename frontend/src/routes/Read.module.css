@@ -13,6 +13,13 @@
   min-height: 0;
 }
 
+/* Rendered markdown scrolls its own column; the shell never scrolls. */
+.proseScroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--ground);
+}
+
 .facts {
   border-top: 1px solid var(--rule-soft);
   padding: var(--s-3) var(--s-6) var(--s-3) var(--s-8);

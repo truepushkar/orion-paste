@@ -102,6 +102,84 @@ def test_meta_publishes_the_default_language(client):
     assert "markdown" in body["languages"]
 
 
+# ---------------------------------------------------------------------------
+# Deployment configuration guards
+# ---------------------------------------------------------------------------
+
+
+def test_mongo_uri_without_a_database_name_resolves_one(monkeypatch):
+    """Atlas hands out URIs with no database in the path.
+
+    `get_default_database()` raises on those, so a perfectly valid connection
+    string used to crash the app at boot. The store must resolve a name instead
+    of failing or writing into an unnamed database.
+    """
+    from storage import MongoStore
+
+    store = MongoStore.__new__(MongoStore)
+    monkeypatch.setenv("MONGODB_DB", "stow_test")
+
+    class FakeDatabase:
+        def __init__(self, name):
+            self.name = name
+
+    class FakeClient:
+        def get_default_database(self):
+            raise Exception("No default database name defined or provided.")
+
+        def __getitem__(self, name):
+            return FakeDatabase(name)
+
+    store.client = FakeClient()
+    assert store._resolve_database("mongodb+srv://x/?retryWrites=true").name == "stow_test"
+
+
+def test_mongo_uri_with_a_database_name_is_used(monkeypatch):
+    from storage import MongoStore
+
+    store = MongoStore.__new__(MongoStore)
+
+    class FakeDatabase:
+        def __init__(self, name):
+            self.name = name
+
+    class FakeClient:
+        def get_default_database(self):
+            return FakeDatabase("from_uri")
+
+        def __getitem__(self, name):
+            return FakeDatabase(name)
+
+    store.client = FakeClient()
+    assert store._resolve_database("mongodb+srv://x/from_uri").name == "from_uri"
+
+
+def test_serverless_without_mongo_refuses_to_start(monkeypatch):
+    """A silent SQLite fallback on serverless loses every entry on each
+    deploy, so it must be an error rather than a warning."""
+    from storage import build_store
+
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.delenv("MONGODB_URI", raising=False)
+    with pytest.raises(RuntimeError) as error:
+        build_store("/tmp")
+    assert "MONGODB_URI" in str(error.value)
+
+
+def test_secret_key_is_required_on_serverless(monkeypatch):
+    """Without a stable key every cold start invalidates read tokens."""
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.delenv("SECRET_KEY", raising=False)
+    with pytest.raises(RuntimeError) as error:
+        stow._resolve_secret()
+    assert "SECRET_KEY" in str(error.value)
+
+
+def test_secret_key_is_used_when_configured(monkeypatch):
+    monkeypatch.setenv("SECRET_KEY", "a-configured-key")
+    assert stow._resolve_secret() == "a-configured-key"
+
+
 def test_protected_paste_withholds_body_from_anonymous_reader(client):
     created = make_paste(client, password="harbor-lamp", protectRead=True).get_json()
     assert created["protected"] is True
