@@ -121,6 +121,13 @@
   overflow: hidden;
 }
 
+/* Items stay on one line. A status strip that wraps into a column is no
+   longer a strip, it is a list of words in a corner. */
+.statusLeft > * {
+  flex: none;
+  white-space: nowrap;
+}
+
 .statusRight {
   margin-left: auto;
   color: var(--ink-4);
@@ -193,6 +200,21 @@
   .status {
     padding: 0 var(--s-4);
     gap: var(--s-3);
+  }
+
+  /* Four fields do not fit at 390px. Rather than wrap or clip mid-word, the
+     strip becomes a single horizontally scrollable row: every field is still
+     reachable, and the first one is what most visitors want anyway. */
+  .statusLeft {
+    gap: var(--s-3);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 88%, transparent 100%);
+  }
+
+  .statusLeft::-webkit-scrollbar {
+    display: none;
   }
 
   /* The page's own metadata and the product's standing links cannot both fit
